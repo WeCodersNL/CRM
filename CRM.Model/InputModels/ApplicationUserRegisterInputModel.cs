@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRM.Model.InputModels
 {
-    public class ApplicationUserInputModel
+    public class ApplicationUserRegisterInputModel
     {
         [Required]
         public required string FirstName { get; set; }

@@ -4,11 +4,11 @@ namespace CRM.Service.IService
 {
     public interface IAuthenticationService
     {
-        Task<bool> LoginAsync(ApplicationUserInputModel model);
-        Task<bool> RegisterAsync(ApplicationUserInputModel model);
-        Task<bool> ForgotPasswordAsync(ApplicationUserInputModel model);
-        Task<bool> ResetPasswordAsync(ApplicationUserInputModel model);
-        Task<bool> ChangePasswordAsync(ApplicationUserInputModel model);
-        Task<bool> RefreshTokenAsync(ApplicationUserInputModel model);
+        Task<bool> LoginAsync(ApplicationUserLoginInputModel model);
+        Task<bool> RegisterAsync(ApplicationUserRegisterInputModel model);
+        Task<bool> ForgotPasswordAsync(ApplicationUserRegisterInputModel model);
+        Task<bool> ResetPasswordAsync(ApplicationUserRegisterInputModel model);
+        Task<bool> ChangePasswordAsync(ApplicationUserRegisterInputModel model);
+        Task<bool> RefreshTokenAsync(ApplicationUserRegisterInputModel model);
     }
 }
