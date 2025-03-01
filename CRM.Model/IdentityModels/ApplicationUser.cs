@@ -1,9 +1,8 @@
 ﻿using CRM.Model.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 
-namespace CRM.Model.Identity;
+namespace CRM.Model.IdentityModels;
 
 // Add profile data for application users by adding properties to the ApplicationUser class
 public class ApplicationUser : IdentityUser

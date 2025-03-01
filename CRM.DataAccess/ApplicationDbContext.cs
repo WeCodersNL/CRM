@@ -1,4 +1,4 @@
-﻿using CRM.Model.Identity;
+﻿using CRM.Model.IdentityModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
