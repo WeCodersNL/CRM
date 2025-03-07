@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CRM.Model\CRM.Model.csproj" />
+  </ItemGroup>
+
 </Project>
