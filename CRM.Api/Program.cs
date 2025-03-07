@@ -26,7 +26,10 @@ namespace CRM.Api
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+              );
 
             app.Run();
         }

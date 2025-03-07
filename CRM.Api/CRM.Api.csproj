@@ -8,6 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\PublicArea\Controllers\" />
+    <Folder Include="Areas\PublicArea\Data\" />
+    <Folder Include="Areas\PublicArea\Models\" />
+    <Folder Include="Areas\PublicArea\Views\" />
   </ItemGroup>
 
 </Project>
