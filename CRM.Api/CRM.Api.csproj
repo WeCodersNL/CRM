@@ -20,4 +20,8 @@
     <ProjectReference Include="..\CRM.Service\CRM.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\" />
+  </ItemGroup>
+
 </Project>
