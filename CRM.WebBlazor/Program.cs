@@ -8,6 +8,9 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        var apiBaseAddress = builder.Configuration["ApiBaseAddress"];
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress!) });
+
         // Add services to the container.
         builder.Services.AddRazorComponents();
 
