@@ -61,7 +61,7 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Hello, welcome to our CRM.
         /// </summary>
         public static string WelcomeMessage {
             get {

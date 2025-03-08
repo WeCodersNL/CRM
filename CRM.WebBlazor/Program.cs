@@ -15,7 +15,7 @@ public class Program
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress!) });
 
         // Add services to the container.
-        builder.Services.AddLocalization(options => options.ResourcesPath = "LocalizationResource");
+        builder.Services.AddLocalization();
         var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("nl") };
         builder.Services.Configure<RequestLocalizationOptions>(options =>
         {
