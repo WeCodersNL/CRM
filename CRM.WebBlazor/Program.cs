@@ -1,5 +1,7 @@
 using CRM.WebBlazor.Components;
+using Microsoft.AspNetCore.Localization;
 using MudBlazor.Services;
+using System.Globalization;
 
 namespace CRM.WebBlazor;
 
@@ -13,6 +15,15 @@ public class Program
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress!) });
 
         // Add services to the container.
+        builder.Services.AddLocalization(options => options.ResourcesPath = "LocalizationResource");
+        var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("nl") };
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("en");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+        });
+
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
         builder.Services.AddMudServices();

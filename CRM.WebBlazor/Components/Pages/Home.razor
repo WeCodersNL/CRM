@@ -1,12 +1,11 @@
 ﻿@page "/"
 
 @inject HttpClient Http
+@inject IStringLocalizer<Resource> Localizer
 
 <PageTitle>Home</PageTitle>
 <MudContainer>
-    <h1>Hello, world!</h1>
-
-    Welcome to your new app.
+    <h1>@Localizer["WelcomeMessage"]</h1>
 
     <p>@apiResponse</p>
 </MudContainer>
