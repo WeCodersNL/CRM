@@ -1,10 +1,8 @@
 ﻿@inherits LayoutComponentBase
-@* Required *@
-<MudThemeProvider />
+@inject IJSRuntime jsRuntime
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudPopoverProvider />
-@* Needed for dialogs *@
 <MudDialogProvider />
-@* Needed for snackbars *@
 <MudSnackbarProvider />
 
 <MudLayout>
@@ -12,8 +10,9 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         My CRM Application
     </MudAppBar>
+    <MudIconButton Icon="@_currentIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="UpdateDarkMode" />
     <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu/>
+        <NavMenu />
     </MudDrawer>
     <MudMainContent>
         @Body
@@ -21,9 +20,46 @@
 </MudLayout>
 @code {
     bool _drawerOpen = true;
+    bool _isDarkMode = false;
+    string _currentIcon = Icons.Material.Filled.Brightness7;
+    MudTheme _theme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = Colors.DeepPurple.Default,
+            AppbarBackground = Colors.DeepPurple.Default,
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = Colors.DeepPurple.Lighten2,
+            AppbarBackground = Colors.DeepPurple.Lighten2,
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var darkMode = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "dark-mode");
+            if (!string.IsNullOrEmpty(darkMode))
+            {
+                _isDarkMode = bool.Parse(darkMode);
+                _currentIcon = _isDarkMode ? Icons.Material.Filled.Brightness4 : Icons.Material.Filled.Brightness7;
+                StateHasChanged();
+            }
+
+        }
+    }
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    private async Task UpdateDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+        _currentIcon = _isDarkMode ? Icons.Material.Filled.Brightness4 : Icons.Material.Filled.Brightness7;
+        await jsRuntime.InvokeVoidAsync("localStorage.setItem", "dark-mode", _isDarkMode.ToString());
     }
 }
