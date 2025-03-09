@@ -9,8 +9,10 @@
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         My CRM Application
+        <MudSpacer />
+        <CultureDropDown />
+        <MudIconButton Icon="@_currentIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="UpdateDarkMode" />
     </MudAppBar>
-    <MudIconButton Icon="@_currentIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="UpdateDarkMode" />
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
     </MudDrawer>
