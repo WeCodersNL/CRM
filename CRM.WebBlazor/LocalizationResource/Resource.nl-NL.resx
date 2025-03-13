@@ -117,7 +117,103 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button-login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="button-reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="input-email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="input-password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="label-errors" xml:space="preserve">
+    <value>Fouten</value>
+  </data>
+  <data name="message-email-format" xml:space="preserve">
+    <value>E-mailformaat is niet correct.</value>
+  </data>
+  <data name="message-email-required" xml:space="preserve">
+    <value>E-mail is vereist!</value>
+  </data>
+  <data name="message-invalid-login" xml:space="preserve">
+    <value>Ongeldige inlogpoging.</value>
+  </data>
+  <data name="message-login-not-allowed" xml:space="preserve">
+    <value>Inloggen is niet toegestaan.</value>
+  </data>
+  <data name="message-password-validation" xml:space="preserve">
+    <value>Wachtwoord moet minimaal 8 tekens bevatten, één hoofdletter, één cijfer en één symbool.</value>
+  </data>
+  <data name="message-password-required" xml:space="preserve">
+    <value>Wachtwoord is vereist!</value>
+  </data>
+  <data name="message-two-factor-required" xml:space="preserve">
+    <value>Twee-factor authenticatie is vereist!</value>
+  </data>
+  <data name="message-unknown-error" xml:space="preserve">
+    <value>Er is een onbekende fout opgetreden tijdens het verzoek.</value>
+  </data>
+  <data name="message-user-locked-out" xml:space="preserve">
+    <value>Gebruiker is geblokkeerd.</value>
+  </data>
+  <data name="title-login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Hallo, welkom bij ons CRM</value>
+  </data>
+  <data name="title-register" xml:space="preserve">
+    <value>Registreren</value>
+  </data>
+  <data name="input-firstname" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="message-firstname-required" xml:space="preserve">
+    <value>Voornaam is verplicht!</value>
+  </data>
+  <data name="input-lastname" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="message-lastname-required" xml:space="preserve">
+    <value>Achternaam is verplicht!</value>
+  </data>
+  <data name="input-dateofbirth" xml:space="preserve">
+    <value>Geboortedatum</value>
+  </data>
+  <data name="input-confirm-password" xml:space="preserve">
+    <value>Bevestig wachtwoord</value>
+  </data>
+  <data name="message-confirm-password-required" xml:space="preserve">
+    <value>Bevestig wachtwoord is verplicht!</value>
+  </data>
+  <data name="button-register" xml:space="preserve">
+    <value>Registreren</value>
+  </data>
+  <data name="message-confirm-password-match" xml:space="preserve">
+    <value>Wachtwoorden komen niet overeen.</value>
+  </data>
+  <data name="message-email-exists" xml:space="preserve">
+    <value>E-mailadres bestaat al.</value>
+  </data>
+  <data name="message-password-weak" xml:space="preserve">
+    <value>Wachtwoord is te zwak.</value>
+  </data>
+  <data name="message-invalid-user-data" xml:space="preserve">
+    <value>Ongeldige gebruikersgegevens.</value>
+  </data>
+  <data name="input-gender" xml:space="preserve">
+    <value>Geslacht</value>
+  </data>
+  <data name="gender-Female" xml:space="preserve">
+    <value>Vrouw</value>
+  </data>
+  <data name="gender-Male" xml:space="preserve">
+    <value>Man</value>
+  </data>
+  <data name="gender-Other" xml:space="preserve">
+    <value>Anders</value>
   </data>
 </root>

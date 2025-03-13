@@ -117,7 +117,103 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button-login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="button-reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="input-email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="input-password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="label-errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="message-email-format" xml:space="preserve">
+    <value>Email format is not correct.</value>
+  </data>
+  <data name="message-email-required" xml:space="preserve">
+    <value>Email is required!</value>
+  </data>
+  <data name="message-invalid-login" xml:space="preserve">
+    <value>Invalid login attempt.</value>
+  </data>
+  <data name="message-login-not-allowed" xml:space="preserve">
+    <value>Login is not allowed.</value>
+  </data>
+  <data name="message-password-validation" xml:space="preserve">
+    <value>Password must contain at least 8 characters, one uppercase letter, one number and one symbol.</value>
+  </data>
+  <data name="message-password-required" xml:space="preserve">
+    <value>Password is required!</value>
+  </data>
+  <data name="message-two-factor-required" xml:space="preserve">
+    <value>Two-factor authentication is required!</value>
+  </data>
+  <data name="message-unknown-error" xml:space="preserve">
+    <value>An unknown error occurred during the request.</value>
+  </data>
+  <data name="message-user-locked-out" xml:space="preserve">
+    <value>User is locked out.</value>
+  </data>
+  <data name="title-login" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Hello, welcome to our CRM</value>
+  </data>
+  <data name="title-register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="input-firstname" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="message-firstname-required" xml:space="preserve">
+    <value>First name is required!</value>
+  </data>
+  <data name="input-lastname" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="message-lastname-required" xml:space="preserve">
+    <value>Last name is required!</value>
+  </data>
+  <data name="input-dateofbirth" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
+  <data name="input-confirm-password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="message-confirm-password-required" xml:space="preserve">
+    <value>Confirm password is required!</value>
+  </data>
+  <data name="button-register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="message-confirm-password-match" xml:space="preserve">
+    <value>Passwords do not match</value>
+  </data>
+  <data name="message-email-exists" xml:space="preserve">
+    <value>Email already exists.</value>
+  </data>
+  <data name="message-password-weak" xml:space="preserve">
+    <value>Password is too weak.</value>
+  </data>
+  <data name="message-invalid-user-data" xml:space="preserve">
+    <value>Invalid user data.</value>
+  </data>
+  <data name="input-gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="gender-Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="gender-Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="gender-Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 </root>
