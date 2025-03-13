@@ -1,0 +1,87 @@
+﻿@page "/identity/login"
+
+@using CRM.Model.ApplicationModels
+@using CRM.Model.InputModels
+@using CRM.WebBlazor.Validator
+
+@inject HttpClient http
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+
+<MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
+    <MudText Typo="Typo.h3">@localizer["title-login"]</MudText>
+    <MudGrid>
+        <MudItem xs="12" lg="7">
+            <MudPaper Class="pa-4">
+                <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" Model="@model" Disabled="@loading">
+                    <MudTextField T="string" Label="@localizer["input-email"]" @bind-Value="model.Email" Validation="@(new EmailOnlyAttribute() {ErrorMessage = @localizer["message-email-format"]})" Required="true" RequiredError="@localizer["message-email-required"]" Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-password"]" @bind-Value="model.Password" InputType="InputType.Password" Validation="@(new PasswordAttribute(){ErrorMessage = @localizer["message-password-validation"]} )" Required="true" RequiredError="@localizer["message-password-required"]" Class="mt-4" />
+                    <div class="d-flex align-center justify-space-between mt-4">
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})" Class="mx-2">@localizer["button-reset"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="@(async () => await HandleValidSubmit())">@localizer["button-login"]</MudButton>
+                    </div>
+                </MudForm>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" lg="5">
+            <MudPaper Class="pa-4 mud-height-full">
+                <MudText Typo="Typo.subtitle2">@localizer["label-errors"] (@errors.Length):</MudText>
+                @foreach (var error in errors)
+                {
+                    <MudText Color="@Color.Error">@error</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+    <MudOverlay Visible="loading" LightBackground="true" Absolute="true">
+        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
+    </MudOverlay>
+</MudPaper>
+
+@code {
+    bool success;
+    string[] errors = { };
+    MudForm form = new();
+    ApplicationUserLoginInputModel model = new ApplicationUserLoginInputModel { Email = "", Password = "" };
+    bool loading = false;
+
+    private async Task HandleValidSubmit()
+    {
+        ChangeLoadingState();
+        var response = await http.PostAsJsonAsync("Identity/Authentication/login", model);
+        ChangeLoadingState();
+        if (response.IsSuccessStatusCode)
+            navManager.NavigateTo("/Identity/user-profile");
+        else
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ResponseModel<bool>>();
+            var localizedMessage = GetLocalizedErrorMessage(errorResponse?.Message);
+            errors = new string[] { localizedMessage };
+        }
+    }
+
+    private void ChangeLoadingState()
+    {
+        loading = !loading;
+    }
+
+    private string GetLocalizedErrorMessage(string? message)
+    {
+        var resourceKey = GetResourceKeyForApiMessage(message);
+        return localizer[resourceKey];
+    }
+
+    private string GetResourceKeyForApiMessage(string? message)
+    {
+        return message switch
+        {
+            "User is locked out." => "message-user-locked-out",
+            "Login is not allowed." => "message-login-not-allowed",
+            "Two-factor authentication is required." => "message-two-factor-required",
+            "Invalid login attempt." => "message-invalid-login",
+            _ => "message-unknown-error"
+        };
+    }
+}

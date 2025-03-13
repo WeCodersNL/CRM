@@ -16,7 +16,7 @@ namespace CRM.Api.Areas.Identity
         public async Task<IActionResult> Login([FromBody] ApplicationUserLoginInputModel model)
         {
             var response = await authenticationService.LoginAsync(model);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return response.IsSuccess ? Ok() : BadRequest(response);
         }
 
         [HttpPost("register")]
@@ -24,7 +24,7 @@ namespace CRM.Api.Areas.Identity
         public async Task<IActionResult> Register([FromBody] ApplicationUserRegisterInputModel model)
         {
             var response = await authenticationService.RegisterAsync(model);
-            return response ? Ok(response) : StatusCode(500);
+            return response.IsSuccess ? Ok() : BadRequest(response);
         }
 
         [HttpPost("forgot-password")]

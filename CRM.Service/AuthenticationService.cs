@@ -49,7 +49,7 @@ namespace CRM.Service
         {
             throw new NotImplementedException();
         }
-        public async Task<bool> RegisterAsync(ApplicationUserRegisterInputModel model)
+        public async Task<ResponseModel<bool>> RegisterAsync(ApplicationUserRegisterInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Password);
@@ -67,7 +67,26 @@ namespace CRM.Service
 
             var result = await userManager.CreateAsync(user, model.Password);
 
-            return result.Succeeded ? true : throw new Exception("Unable to create user, Errors: " + result.Errors);
+            if (result.Succeeded)
+            {
+                return new ResponseModel<bool>
+                {
+                    IsSuccess = true,
+                    Message = "User created successfully",
+                    Data = true
+                };
+            }
+
+            string errorMessage = result.Errors.Any()
+                ? string.Join("; ", result.Errors.Select(e => e.Code))
+                : "Unable to register user due to unknown errors.";
+
+            return new ResponseModel<bool>
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = false
+            };
         }
         public Task<bool> ResetPasswordAsync(ApplicationUserRegisterInputModel model)
         {

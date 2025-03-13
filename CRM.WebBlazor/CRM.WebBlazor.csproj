@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CRM.Model\CRM.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="LocalizationResource\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

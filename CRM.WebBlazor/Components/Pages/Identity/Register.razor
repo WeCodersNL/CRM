@@ -1,0 +1,128 @@
+﻿@page "/identity/register"
+
+@using CRM.Model.ApplicationModels
+@using CRM.Model.Enums
+@using CRM.Model.InputModels
+@using CRM.WebBlazor.Validator
+
+@inject HttpClient http
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager navManager
+
+<MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
+    <MudText Typo="Typo.h3">@localizer["title-register"]</MudText>
+    <MudGrid>
+        <MudItem xs="12" lg="7">
+            <MudPaper Class="pa-4">
+                <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" Model="@model" Disabled="@loading">
+                    <MudTextField T="string" Label="@localizer["input-firstname"]" @bind-Value="model.FirstName" Required="true" RequiredError="@localizer["message-firstname-required"]" Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-lastname"]" @bind-Value="model.LastName" Required="true" RequiredError="@localizer["message-lastname-required"]" Class="mt-4" />
+                    <MudSelect T="string" Label="@localizer["input-gender"]" ValueChanged="@(value => UpdateGender(value))" Class="mt-4">
+                        @foreach (var gender in GetLocalizedGenderArrayFromEnum())
+                        {
+                            <MudSelectItem T="string" Value="@gender.Key.ToString()">@gender.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudDatePicker T="DateTime" Label="@localizer["input-dateofbirth"]" DateChanged="@(value => model.DateOfBirth = value)" Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-email"]" @bind-Value="model.Email" Validation="@(new EmailOnlyAttribute() {ErrorMessage = @localizer["message-email-format"]})" Required="true" RequiredError="@localizer["message-email-required"]" Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-password"]" @bind-Value="model.Password" InputType="InputType.Password" Validation="@(new PasswordAttribute() {ErrorMessage = @localizer["message-password-validation"]})" Required="true" RequiredError="@localizer["message-password-required"]" Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-confirm-password"]" @bind-Value="model.ConfirmPassword" InputType="InputType.Password" Validation="@(new Func<string, string?>(PasswordMatch))" Required="true" RequiredError="@localizer["message-confirm-password-required"]" Class="mt-4" />
+
+                    <div class="d-flex align-center justify-space-between mt-4">
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})" Class="mx-2">@localizer["button-reset"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="@(async () => await HandleValidSubmit())">@localizer["button-register"]</MudButton>
+                    </div>
+                </MudForm>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" lg="5">
+            <MudPaper Class="pa-4 mud-height-full">
+                <MudText Typo="Typo.subtitle2">@localizer["label-errors"] (@errors.Length):</MudText>
+                @foreach (var error in errors)
+                {
+                    <MudText Color="@Color.Error">@error</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+    <MudOverlay Visible="loading" LightBackground="true" Absolute="true">
+        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
+    </MudOverlay>
+</MudPaper>
+
+@code {
+    bool success;
+    string[] errors = { };
+    MudForm form = new();
+    ApplicationUserRegisterInputModel model = new ApplicationUserRegisterInputModel
+        {
+            FirstName = "",
+            LastName = "",
+            Email = "",
+            Password = "",
+            ConfirmPassword = ""
+        };
+    bool loading = false;
+
+    private async Task HandleValidSubmit()
+    {
+        ChangeLoadingState();
+        var response = await http.PostAsJsonAsync("Identity/Authentication/register", model);
+        ChangeLoadingState();
+        if (response.IsSuccessStatusCode)
+            navManager.NavigateTo("/Identity/login");
+        else
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ResponseModel<bool>>();
+            var localizedMessage = GetLocalizedErrorMessage(errorResponse?.Message);
+            errors = new string[] { localizedMessage };
+        }
+    }
+
+    private void ChangeLoadingState()
+    {
+        loading = !loading;
+    }
+
+    private string? PasswordMatch(string confirmPassword)
+    {
+        if (model.Password != confirmPassword)
+        {
+            return localizer["message-confirm-password-match"];
+        }
+        return null;
+    }
+
+
+    private string GetLocalizedErrorMessage(string? message)
+    {
+        var resourceKey = GetResourceKeyForApiMessage(message);
+        return localizer[resourceKey];
+    }
+
+    private string GetResourceKeyForApiMessage(string? message)
+    {
+        return message switch
+        {
+            "DuplicateUserName" => "message-email-exists",
+            _ => "message-unknown-error"
+        };
+    }
+
+    private KeyValuePair<Gender, string>[] GetLocalizedGenderArrayFromEnum()
+    {
+        return Enum.GetValues(typeof(Gender))
+                   .Cast<Gender>()
+                   .Select(gender => new KeyValuePair<Gender, string>(gender, localizer[$"gender-{gender}"].Value))
+                   .ToArray();
+    }
+
+    private void UpdateGender(string value)
+    {
+        if (Enum.TryParse<Gender>(value, out var parsedGender))
+            model.Gender = parsedGender;
+        else
+            model.Gender = null;
+    }
+}

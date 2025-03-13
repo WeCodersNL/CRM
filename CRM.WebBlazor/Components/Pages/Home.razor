@@ -1,11 +1,11 @@
 ﻿@page "/"
 
-@inject HttpClient Http
-@inject IStringLocalizer<Resource> Localizer
+@inject HttpClient http
+@inject IStringLocalizer<Resource> localizer
 
 <PageTitle>Home</PageTitle>
 <MudContainer>
-    <h1>@Localizer["WelcomeMessage"]</h1>
+    <h1>@localizer["WelcomeMessage"]</h1>
 
     <p>@apiResponse</p>
 </MudContainer>
@@ -21,7 +21,7 @@
     {
         try
         {
-            apiResponse = await Http.GetStringAsync("PublicArea/Public");
+            apiResponse = await http.GetStringAsync("PublicArea/Public");
         }
         catch (Exception ex)
         {
