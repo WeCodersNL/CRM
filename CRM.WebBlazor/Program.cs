@@ -1,4 +1,5 @@
 using CRM.WebBlazor.Components;
+using CRM.WebBlazor.Service;
 using Microsoft.AspNetCore.Localization;
 using MudBlazor.Services;
 using System.Globalization;
@@ -27,6 +28,8 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
         builder.Services.AddMudServices();
+        builder.Services.AddScoped<IFileService, FileService>();
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

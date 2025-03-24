@@ -27,6 +27,22 @@ namespace CRM.Api.Areas.Identity
             return response.IsSuccess ? Ok() : BadRequest(response);
         }
 
+        [HttpPost("confirm-email")]
+        [DisplayName("Confirm Email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ApplicationUserConfirmEmailInputModel model)
+        {
+            var response = await authenticationService.ConfirmEmailAsync(model);
+            return response.IsSuccess ? Ok() : BadRequest(response);
+        }
+        
+        [HttpPost("confirm-email-verify-code")]
+        [DisplayName("Confirm Email Verify Code")]
+        public async Task<IActionResult> ConfirmEmailVerifyCode([FromBody] ApplicationUserConfirmEmailInputModel model)
+        {
+            var response = await authenticationService.ConfirmEmailVerifyCodeAsync(model);
+            return response.IsSuccess ? Ok() : BadRequest(response);
+        }
+
         [HttpPost("forgot-password")]
         [DisplayName("Forgot Password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ApplicationUserRegisterInputModel model)

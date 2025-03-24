@@ -216,4 +216,49 @@
   <data name="gender-Other" xml:space="preserve">
     <value>Anders</value>
   </data>
+  <data name="title-confirm-email" xml:space="preserve">
+    <value>Bevestig e-mail</value>
+  </data>
+  <data name="message-user-not-found" xml:space="preserve">
+    <value>Gebruiker niet gevonden!</value>
+  </data>
+  <data name="input-verification-code" xml:space="preserve">
+    <value>Verificatiecode</value>
+  </data>
+  <data name="message-code-four-digit" xml:space="preserve">
+    <value>Code moet precies 4 cijfers bevatten.</value>
+  </data>
+  <data name="message-verification-code-required" xml:space="preserve">
+    <value>Verificatiecode is vereist!</value>
+  </data>
+  <data name="info-verify-code-sent" xml:space="preserve">
+    <value>De verificatiecode is naar uw e-mail gestuurd, neem die code en voer deze in het vak in zonder deze pagina te sluiten.</value>
+  </data>
+  <data name="button-activate" xml:space="preserve">
+    <value>Activeren</value>
+  </data>
+  <data name="button-verify" xml:space="preserve">
+    <value>Verifiëren</value>
+  </data>
+  <data name="message-invalid-confirmation-code" xml:space="preserve">
+    <value>Ongeldige code!</value>
+  </data>
+  <data name="link-confirm-email" xml:space="preserve">
+    <value>Bevestig e-mail</value>
+  </data>
+  <data name="link-forget-password" xml:space="preserve">
+    <value>Wachtwoord Vergeten</value>
+  </data>
+  <data name="message-failed-save-verification-code" xml:space="preserve">
+    <value>Opslaan verificatiecode is fout gegaan.</value>
+  </data>
+  <data name="message-email-confirmation-failed" xml:space="preserve">
+    <value>Bevestiging van e-mail mislukt!</value>
+  </data>
+  <data name="message-email-already-confirmed" xml:space="preserve">
+    <value>E-mailadres is reeds bevestigd!</value>
+  </data>
+  <data name="email-template-raw-text" xml:space="preserve">
+    <value>Beste {FullName}, Verifieer alstublieft uw e-mailadres met deze 4-cijferige code: {Code}.</value>
+  </data>
 </root>

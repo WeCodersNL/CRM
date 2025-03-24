@@ -22,6 +22,12 @@
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})" Class="mx-2">@localizer["button-reset"]</MudButton>
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="@(async () => await HandleValidSubmit())">@localizer["button-login"]</MudButton>
                     </div>
+                    <div class="d-flex align-center justify-space-between mt-4">
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Href="/identity/confirm-email">@localizer["link-confirm-email"]</MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Href="/identity/forget-password">@localizer["link-forget-password"]</MudButton>
+                        <MudSpacer />
+                    </div>
                 </MudForm>
             </MudPaper>
         </MudItem>

@@ -1,0 +1,8 @@
+﻿<MudOverlay Visible="Loading" LightBackground="true" Absolute="true">
+    <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
+</MudOverlay>
+
+@code {
+    [Parameter, EditorRequired]
+    public bool Loading { get; set; } = false;
+}

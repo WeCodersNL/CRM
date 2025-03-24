@@ -61,6 +61,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activate.
+        /// </summary>
+        public static string button_activate {
+            get {
+                return ResourceManager.GetString("button-activate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string button_login {
@@ -88,6 +97,24 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verify.
+        /// </summary>
+        public static string button_verify {
+            get {
+                return ResourceManager.GetString("button-verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear {FullName}, Please Verify Your Email Address by this 4-digit code: {Code}.
+        /// </summary>
+        public static string email_template_raw_text {
+            get {
+                return ResourceManager.GetString("email-template-raw-text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Female.
         /// </summary>
         public static string gender_Female {
@@ -111,6 +138,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string gender_Other {
             get {
                 return ResourceManager.GetString("gender-Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The verification code has been sent to your email, please take that code and enter it in the box without closing this page..
+        /// </summary>
+        public static string info_verify_code_sent {
+            get {
+                return ResourceManager.GetString("info-verify-code-sent", resourceCulture);
             }
         }
         
@@ -178,11 +214,47 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verification code.
+        /// </summary>
+        public static string input_verification_code {
+            get {
+                return ResourceManager.GetString("input-verification-code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Errors.
         /// </summary>
         public static string label_errors {
             get {
                 return ResourceManager.GetString("label-errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Email.
+        /// </summary>
+        public static string link_confirm_email {
+            get {
+                return ResourceManager.GetString("link-confirm-email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forget Password.
+        /// </summary>
+        public static string link_forget_password {
+            get {
+                return ResourceManager.GetString("link-forget-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code must contain exactly 4 digits..
+        /// </summary>
+        public static string message_code_four_digit {
+            get {
+                return ResourceManager.GetString("message-code-four-digit", resourceCulture);
             }
         }
         
@@ -201,6 +273,24 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_confirm_password_required {
             get {
                 return ResourceManager.GetString("message-confirm-password-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email already confirmed!.
+        /// </summary>
+        public static string message_email_already_confirmed {
+            get {
+                return ResourceManager.GetString("message-email-already-confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email confirmation failed!.
+        /// </summary>
+        public static string message_email_confirmation_failed {
+            get {
+                return ResourceManager.GetString("message-email-confirmation-failed", resourceCulture);
             }
         }
         
@@ -232,11 +322,29 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to save verification code..
+        /// </summary>
+        public static string message_failed_save_verification_code {
+            get {
+                return ResourceManager.GetString("message-failed-save-verification-code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name is required!.
         /// </summary>
         public static string message_firstname_required {
             get {
                 return ResourceManager.GetString("message-firstname-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid code!.
+        /// </summary>
+        public static string message_invalid_confirmation_code {
+            get {
+                return ResourceManager.GetString("message-invalid-confirmation-code", resourceCulture);
             }
         }
         
@@ -327,6 +435,33 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_user_locked_out {
             get {
                 return ResourceManager.GetString("message-user-locked-out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found!.
+        /// </summary>
+        public static string message_user_not_found {
+            get {
+                return ResourceManager.GetString("message-user-not-found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification code is required!.
+        /// </summary>
+        public static string message_verification_code_required {
+            get {
+                return ResourceManager.GetString("message-verification-code-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Email.
+        /// </summary>
+        public static string title_confirm_email {
+            get {
+                return ResourceManager.GetString("title-confirm-email", resourceCulture);
             }
         }
         

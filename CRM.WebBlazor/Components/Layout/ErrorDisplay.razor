@@ -1,0 +1,14 @@
+﻿@inject IStringLocalizer<Resource> localizer
+
+<MudPaper Class="pa-4 mud-height-full">
+    <MudText Typo="Typo.subtitle2">@localizer["label-errors"] (@Errors.Length):</MudText>
+    @foreach (var error in Errors)
+    {
+        <MudText Color="@Color.Error">@error</MudText>
+    }
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired]
+    public string[] Errors { get; set; } = Array.Empty<string>();
+}
