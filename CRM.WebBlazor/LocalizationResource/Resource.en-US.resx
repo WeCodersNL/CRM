@@ -247,7 +247,7 @@
     <value>Confirm Email</value>
   </data>
   <data name="link-forget-password" xml:space="preserve">
-    <value>Forget Password</value>
+    <value>Forgot Password?</value>
   </data>
   <data name="message-failed-save-verification-code" xml:space="preserve">
     <value>Failed to save verification code.</value>
@@ -258,7 +258,22 @@
   <data name="message-email-already-confirmed" xml:space="preserve">
     <value>Email already confirmed!</value>
   </data>
-  <data name="email-template-raw-text" xml:space="preserve">
+  <data name="email-template-confirm-email-raw-text" xml:space="preserve">
     <value>Dear {FullName}, Please Verify Your Email Address by this 4-digit code: {Code}.</value>
+  </data>
+  <data name="button-forget-password" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="button-change-password" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="email-template-forgot-password-raw-text" xml:space="preserve">
+    <value>Dear {FullName}, To reset your password, please use the following 4-digit code: {Code}.</value>
+  </data>
+  <data name="message-password-change-failed" xml:space="preserve">
+    <value>Password change failed.</value>
+  </data>
+  <data name="title-forgot-password" xml:space="preserve">
+    <value>Forgot Password</value>
   </data>
 </root>

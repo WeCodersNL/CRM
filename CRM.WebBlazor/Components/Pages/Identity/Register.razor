@@ -15,40 +15,70 @@
         <MudItem xs="12" lg="7">
             <MudPaper Class="pa-4">
                 <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" Model="@model" Disabled="@loading">
-                    <MudTextField T="string" Label="@localizer["input-firstname"]" @bind-Value="model.FirstName" Required="true" RequiredError="@localizer["message-firstname-required"]" Class="mt-4" />
-                    <MudTextField T="string" Label="@localizer["input-lastname"]" @bind-Value="model.LastName" Required="true" RequiredError="@localizer["message-lastname-required"]" Class="mt-4" />
-                    <MudSelect T="string" Label="@localizer["input-gender"]" ValueChanged="@(value => UpdateGender(value))" Class="mt-4">
+                    <MudTextField T="string" Label="@localizer["input-firstname"]" 
+                    @bind-Value="model.FirstName"
+                    InputType="InputType.Text"
+                    Required="true" 
+                    RequiredError="@localizer["message-firstname-required"]" 
+                    Class="mt-4" />
+
+                    <MudTextField T="string" Label="@localizer["input-lastname"]" 
+                    @bind-Value="model.LastName"
+                    InputType="InputType.Text"
+                    Required="true" 
+                    RequiredError="@localizer["message-lastname-required"]" 
+                    Class="mt-4" />
+
+                    <MudSelect T="string" Label="@localizer["input-gender"]" 
+                    ValueChanged="@(value => UpdateGender(value))" 
+                    Class="mt-4">
                         @foreach (var gender in GetLocalizedGenderArrayFromEnum())
                         {
                             <MudSelectItem T="string" Value="@gender.Key.ToString()">@gender.Value</MudSelectItem>
                         }
                     </MudSelect>
-                    <MudDatePicker T="DateTime" Label="@localizer["input-dateofbirth"]" DateChanged="@(value => model.DateOfBirth = value)" Class="mt-4" />
-                    <MudTextField T="string" Label="@localizer["input-email"]" @bind-Value="model.Email" Validation="@(new EmailOnlyAttribute() {ErrorMessage = @localizer["message-email-format"]})" Required="true" RequiredError="@localizer["message-email-required"]" Class="mt-4" />
-                    <MudTextField T="string" Label="@localizer["input-password"]" @bind-Value="model.Password" InputType="InputType.Password" Validation="@(new PasswordAttribute() {ErrorMessage = @localizer["message-password-validation"]})" Required="true" RequiredError="@localizer["message-password-required"]" Class="mt-4" />
-                    <MudTextField T="string" Label="@localizer["input-confirm-password"]" @bind-Value="model.ConfirmPassword" InputType="InputType.Password" Validation="@(new Func<string, string?>(PasswordMatch))" Required="true" RequiredError="@localizer["message-confirm-password-required"]" Class="mt-4" />
+                    <MudDatePicker T="DateTime" Label="@localizer["input-dateofbirth"]" 
+                    DateChanged="@(value => model.DateOfBirth = value)" 
+                    Class="mt-4" />
+                    <MudTextField T="string" Label="@localizer["input-email"]" 
+                    @bind-Value="model.Email"
+                    InputType="InputType.Email"
+                    Validation="@(new EmailOnlyAttribute() {ErrorMessage = @localizer["message-email-format"]})" 
+                    Required="true" 
+                    RequiredError="@localizer["message-email-required"]" 
+                    Class="mt-4" />
+
+                    <MudTextField T="string" Label="@localizer["input-password"]" 
+                    @bind-Value="model.Password" 
+                    InputType="InputType.Password" 
+                    Validation="@(new PasswordAttribute() {ErrorMessage = @localizer["message-password-validation"]})" 
+                    Required="true" 
+                    RequiredError="@localizer["message-password-required"]" 
+                    Class="mt-4" />
+
+                    <MudTextField T="string" Label="@localizer["input-confirm-password"]" 
+                    InputType="InputType.Password" 
+                    Validation="@(new Func<string, string?>(PasswordMatch))" 
+                    Required="true" 
+                    RequiredError="@localizer["message-confirm-password-required"]" 
+                    Class="mt-4" />
 
                     <div class="d-flex align-center justify-space-between mt-4">
                         <MudSpacer />
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})" Class="mx-2">@localizer["button-reset"]</MudButton>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="@(async () => await HandleValidSubmit())">@localizer["button-register"]</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" Class="mx-2"
+                        OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})">@localizer["button-reset"]</MudButton>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" 
+                        OnClick="@(async () => await HandleValidSubmit())">@localizer["button-register"]</MudButton>
                     </div>
                 </MudForm>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" lg="5">
-            <MudPaper Class="pa-4 mud-height-full">
-                <MudText Typo="Typo.subtitle2">@localizer["label-errors"] (@errors.Length):</MudText>
-                @foreach (var error in errors)
-                {
-                    <MudText Color="@Color.Error">@error</MudText>
-                }
-            </MudPaper>
+            <ErrorDisplay Errors="errors" />
         </MudItem>
     </MudGrid>
-    <MudOverlay Visible="loading" LightBackground="true" Absolute="true">
-        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
-    </MudOverlay>
+    <LoadingSpinner Loading="loading" />
 </MudPaper>
 
 @code {
@@ -60,8 +90,7 @@
             FirstName = "",
             LastName = "",
             Email = "",
-            Password = "",
-            ConfirmPassword = ""
+            Password = ""
         };
     bool loading = false;
 

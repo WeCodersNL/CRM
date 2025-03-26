@@ -70,6 +70,24 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string button_change_password {
+            get {
+                return ResourceManager.GetString("button-change-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot Password?.
+        /// </summary>
+        public static string button_forget_password {
+            get {
+                return ResourceManager.GetString("button-forget-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string button_login {
@@ -106,11 +124,20 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear {FullName}, Please Verify Your Email Address by this 4-digit code: {Code}.
+        ///   Looks up a localized string similar to Dear {FullName}, Please Verify Your Email Address by this 4-digit code: {Code}..
         /// </summary>
-        public static string email_template_raw_text {
+        public static string email_template_confirm_email_raw_text {
             get {
-                return ResourceManager.GetString("email-template-raw-text", resourceCulture);
+                return ResourceManager.GetString("email-template-confirm-email-raw-text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear {FullName}, To reset your password, please use the following 4-digit code: {Code}..
+        /// </summary>
+        public static string email_template_forgot_password_raw_text {
+            get {
+                return ResourceManager.GetString("email-template-forgot-password-raw-text", resourceCulture);
             }
         }
         
@@ -385,6 +412,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password change failed..
+        /// </summary>
+        public static string message_password_change_failed {
+            get {
+                return ResourceManager.GetString("message-password-change-failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required!.
         /// </summary>
         public static string message_password_required {
@@ -462,6 +498,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string title_confirm_email {
             get {
                 return ResourceManager.GetString("title-confirm-email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot Password.
+        /// </summary>
+        public static string title_forgot_password {
+            get {
+                return ResourceManager.GetString("title-forgot-password", resourceCulture);
             }
         }
         

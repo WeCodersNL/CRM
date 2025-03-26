@@ -247,7 +247,7 @@
     <value>Bevestig e-mail</value>
   </data>
   <data name="link-forget-password" xml:space="preserve">
-    <value>Wachtwoord Vergeten</value>
+    <value>Wachtwoord vergeten?</value>
   </data>
   <data name="message-failed-save-verification-code" xml:space="preserve">
     <value>Opslaan verificatiecode is fout gegaan.</value>
@@ -258,7 +258,22 @@
   <data name="message-email-already-confirmed" xml:space="preserve">
     <value>E-mailadres is reeds bevestigd!</value>
   </data>
-  <data name="email-template-raw-text" xml:space="preserve">
+  <data name="email-template-confirm-email-raw-text" xml:space="preserve">
     <value>Beste {FullName}, Verifieer alstublieft uw e-mailadres met deze 4-cijferige code: {Code}.</value>
+  </data>
+  <data name="button-forget-password" xml:space="preserve">
+    <value>Wachtwoord vergeten?</value>
+  </data>
+  <data name="button-change-password" xml:space="preserve">
+    <value>Wachtwoord wijzigen</value>
+  </data>
+  <data name="email-template-forgot-password-raw-text" xml:space="preserve">
+    <value>Beste {FullName}, Gebruik de volgende 4-cijferige code om uw wachtwoord opnieuw in te stellen: {Code}.</value>
+  </data>
+  <data name="message-password-change-failed" xml:space="preserve">
+    <value>Wachtwoordwijziging mislukt.</value>
+  </data>
+  <data name="title-forgot-password" xml:space="preserve">
+    <value>Wachtwoord vergeten</value>
   </data>
 </root>

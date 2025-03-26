@@ -13,12 +13,7 @@ namespace CRM.WebBlazor.Service
             var response = await http.PostAsJsonAsync("Identity/Authentication/confirm-email", model);
 
             if (response.IsSuccessStatusCode)
-            {
-                return new ResponseModel<bool>
-                {
-                    IsSuccess = true
-                };
-            }
+                return new ResponseModel<bool> { IsSuccess = true };
 
             return await HandleErrorResponse(response);
         }
@@ -28,12 +23,27 @@ namespace CRM.WebBlazor.Service
             var response = await http.PostAsJsonAsync("Identity/Authentication/confirm-email-verify-code", model);
 
             if (response.IsSuccessStatusCode)
-            {
-                return new ResponseModel<bool>
-                {
-                    IsSuccess = true
-                };
-            }
+                return new ResponseModel<bool> { IsSuccess = true };
+
+            return await HandleErrorResponse(response);
+        }
+
+        public async Task<ResponseModel<bool>> ForgotPasswordAsync(ApplicationUserForgotPasswordInputModel model)
+        {
+            var response = await http.PostAsJsonAsync("Identity/Authentication/forgot-password", model);
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseModel<bool> { IsSuccess = true };
+
+            return await HandleErrorResponse(response);
+        }
+
+        public async Task<ResponseModel<bool>> ChangePasswordAsync(ApplicationUserForgotPasswordInputModel model)
+        {
+            var response = await http.PostAsJsonAsync("Identity/Authentication/change-password", model);
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseModel<bool>{ IsSuccess = true };
 
             return await HandleErrorResponse(response);
         }
@@ -66,6 +76,7 @@ namespace CRM.WebBlazor.Service
                 "Failed to save verification code" => "message-failed-save-verification-code",
                 "Email confirmation failed" => "message-email-confirmation-failed",
                 "Invalid confirmation code" => "message-invalid-confirmation-code",
+                "Password change failed" => "message-password-change-failed",
                 _ => "message-unknown-error"
             };
 
