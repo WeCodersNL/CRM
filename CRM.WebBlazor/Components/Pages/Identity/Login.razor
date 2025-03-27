@@ -1,13 +1,9 @@
 ﻿@page "/identity/login"
 
-@using CRM.Model.ApplicationModels
-@using CRM.Model.InputModels
-@using CRM.WebBlazor.Validator
-
-@inject HttpClient http
 @inject IStringLocalizer<Resource> localizer
 @inject NavigationManager navManager
 @inject IJSRuntime jsRuntime
+@inject IAuthenticationService authenticationService
 
 <MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
     <MudText Typo="Typo.h3">@localizer["title-login"]</MudText>
@@ -36,8 +32,8 @@
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" Class="mx-2"
                         OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})">@localizer["button-reset"]</MudButton>
 
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" 
-                        OnClick="@(async () => await HandleValidSubmit())">@localizer["button-login"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto"
+                        OnClick="@(async () => await SubmitForm())">@localizer["button-login"]</MudButton>
                     </div>
 
                     <div class="d-flex align-center justify-space-between mt-4">
@@ -63,41 +59,14 @@
     ApplicationUserLoginInputModel model = new ApplicationUserLoginInputModel { Email = "", Password = "" };
     bool loading = false;
 
-    private async Task HandleValidSubmit()
+    private async Task SubmitForm()
     {
-        ChangeLoadingState();
-        var response = await http.PostAsJsonAsync("Identity/Authentication/login", model);
-        ChangeLoadingState();
-        if (response.IsSuccessStatusCode)
+        loading = true;
+        var response = await authenticationService.LoginAsync(model);
+        loading = false;
+        if (response.IsSuccess)
             navManager.NavigateTo("/Identity/user-profile");
         else
-        {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ResponseModel<bool>>();
-            var localizedMessage = GetLocalizedErrorMessage(errorResponse?.Message);
-            errors = new string[] { localizedMessage };
-        }
-    }
-
-    private void ChangeLoadingState()
-    {
-        loading = !loading;
-    }
-
-    private string GetLocalizedErrorMessage(string? message)
-    {
-        var resourceKey = GetResourceKeyForApiMessage(message);
-        return localizer[resourceKey];
-    }
-
-    private string GetResourceKeyForApiMessage(string? message)
-    {
-        return message switch
-        {
-            "User is locked out." => "message-user-locked-out",
-            "Login is not allowed." => "message-login-not-allowed",
-            "Two-factor authentication is required." => "message-two-factor-required",
-            "Invalid login attempt." => "message-invalid-login",
-            _ => "message-unknown-error"
-        };
+            errors = new string[] { response.Message ?? string.Empty };
     }
 }

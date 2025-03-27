@@ -8,6 +8,26 @@ namespace CRM.WebBlazor.Service
 {
     public class AuthenticationService(HttpClient http, IStringLocalizer<Resource> localizer) : IAuthenticationService
     {
+        public async Task<ResponseModel<bool>> LoginAsync(ApplicationUserLoginInputModel model)
+        { 
+            var response = await http.PostAsJsonAsync("Identity/Authentication/login", model);
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseModel<bool> { IsSuccess = true };
+
+            return await HandleErrorResponse(response);
+        }
+        
+        public async Task<ResponseModel<bool>> RegisterAsync(ApplicationUserRegisterInputModel model)
+        { 
+            var response = await http.PostAsJsonAsync("Identity/Authentication/register", model);
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseModel<bool> { IsSuccess = true };
+
+            return await HandleErrorResponse(response);
+        }
+        
         public async Task<ResponseModel<bool>> ConfirmEmailAsync(ApplicationUserConfirmEmailInputModel model)
         { 
             var response = await http.PostAsJsonAsync("Identity/Authentication/confirm-email", model);
@@ -71,6 +91,11 @@ namespace CRM.WebBlazor.Service
         {
             var resourceKey = message switch
             {
+                "User is locked out." => "message-user-locked-out",
+                "Login is not allowed." => "message-login-not-allowed",
+                "Two-factor authentication is required." => "message-two-factor-required",
+                "Invalid login attempt." => "message-invalid-login",
+                "DuplicateUserName" => "message-email-exists",
                 "User not found" => "message-user-not-found",
                 "Email already confirmed" => "message-email-already-confirmed",
                 "Failed to save verification code" => "message-failed-save-verification-code",

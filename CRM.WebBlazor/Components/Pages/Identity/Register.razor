@@ -1,13 +1,8 @@
 ﻿@page "/identity/register"
 
-@using CRM.Model.ApplicationModels
-@using CRM.Model.Enums
-@using CRM.Model.InputModels
-@using CRM.WebBlazor.Validator
-
-@inject HttpClient http
 @inject IStringLocalizer<Resource> localizer
 @inject NavigationManager navManager
+@inject IAuthenticationService authenticationService
 
 <MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
     <MudText Typo="Typo.h3">@localizer["title-register"]</MudText>
@@ -68,8 +63,8 @@
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" Class="mx-2"
                         OnClick="@(()=>{form.ResetAsync(); form.ResetValidation();})">@localizer["button-reset"]</MudButton>
 
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" 
-                        OnClick="@(async () => await HandleValidSubmit())">@localizer["button-register"]</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto"
+                        OnClick="@(async () => await SubmitForm())">@localizer["button-register"]</MudButton>
                     </div>
                 </MudForm>
             </MudPaper>
@@ -94,24 +89,15 @@
         };
     bool loading = false;
 
-    private async Task HandleValidSubmit()
+    private async Task SubmitForm()
     {
-        ChangeLoadingState();
-        var response = await http.PostAsJsonAsync("Identity/Authentication/register", model);
-        ChangeLoadingState();
-        if (response.IsSuccessStatusCode)
+        loading = true;
+        var response = await authenticationService.RegisterAsync(model);
+        loading = false;
+        if (response.IsSuccess)
             navManager.NavigateTo("/Identity/login");
         else
-        {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ResponseModel<bool>>();
-            var localizedMessage = GetLocalizedErrorMessage(errorResponse?.Message);
-            errors = new string[] { localizedMessage };
-        }
-    }
-
-    private void ChangeLoadingState()
-    {
-        loading = !loading;
+            errors = new string[] { response.Message ?? string.Empty };
     }
 
     private string? PasswordMatch(string confirmPassword)
@@ -121,22 +107,6 @@
             return localizer["message-confirm-password-match"];
         }
         return null;
-    }
-
-
-    private string GetLocalizedErrorMessage(string? message)
-    {
-        var resourceKey = GetResourceKeyForApiMessage(message);
-        return localizer[resourceKey];
-    }
-
-    private string GetResourceKeyForApiMessage(string? message)
-    {
-        return message switch
-        {
-            "DuplicateUserName" => "message-email-exists",
-            _ => "message-unknown-error"
-        };
     }
 
     private KeyValuePair<Gender, string>[] GetLocalizedGenderArrayFromEnum()
