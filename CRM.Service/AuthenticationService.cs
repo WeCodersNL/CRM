@@ -27,6 +27,7 @@ namespace CRM.Service
         {
             ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Password);
+
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
             if (result.Succeeded)
@@ -143,7 +144,9 @@ namespace CRM.Service
 
         public async Task<ResponseModel<bool>> ConfirmEmailVerifyCodeAsync(ApplicationUserConfirmEmailInputModel model)
         {
+            ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Code);
+
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
@@ -215,8 +218,10 @@ namespace CRM.Service
 
         public async Task<ResponseModel<bool>> ChangePasswordAsync(ApplicationUserForgotPasswordInputModel model)
         {
+            ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Code);
             ArgumentNullException.ThrowIfNull(model.Password);
+
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
@@ -227,13 +232,11 @@ namespace CRM.Service
                 };
             }
 
-            model.FullName = $"{user.FirstName} {user.LastName}";
             bool isCodeValid = user.VerificationCode != null && user.VerificationCode.ToString() == model.Code;
             if (isCodeValid)
             {
-                user.EmailConfirmed = true;
-                user.Activity = true;
-                var result = await userManager.UpdateAsync(user);
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, token, model.Password);
                 return new ResponseModel<bool>
                 {
                     IsSuccess = result.Succeeded,
@@ -274,3 +277,4 @@ namespace CRM.Service
         }
     }
 }
+
