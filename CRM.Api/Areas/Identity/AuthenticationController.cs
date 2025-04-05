@@ -51,20 +51,20 @@ namespace CRM.Api.Areas.Identity
             return response.IsSuccess ? Ok() : StatusCode(500);
         }
         
-        [HttpPost("change-password")]
-        [DisplayName("Change Password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ApplicationUserForgotPasswordInputModel model)
+        [HttpPost("reset-password")]
+        [DisplayName("Reset Password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ApplicationUserForgotPasswordInputModel model)
         {
-            var response = await authenticationService.ChangePasswordAsync(model);
+            var response = await authenticationService.ResetPasswordAsync(model);
             return response.IsSuccess ? Ok() : StatusCode(500);
         }
 
-        [HttpPost("reset-password")]
-        [DisplayName("Reset Password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ApplicationUserRegisterInputModel model)
+        [HttpPost("change-password")]
+        [DisplayName("Change Password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ApplicationUserRegisterInputModel model)
         {
-            var response = await authenticationService.ResetPasswordAsync(model);
-            return response ? Ok(response) : StatusCode(500);
+            var response = await authenticationService.ChangePasswordAsync(model);
+            return response ? Ok() : StatusCode(500);
         }
 
         [HttpPost("refresh-token")]
@@ -72,7 +72,7 @@ namespace CRM.Api.Areas.Identity
         public async Task<IActionResult> RefreshToken([FromBody] ApplicationUserRegisterInputModel model)
         {
             var response = await authenticationService.RefreshTokenAsync(model);
-            return response ? Ok(response) : StatusCode(500);
+            return response ? Ok() : StatusCode(500);
         }
     }
 }

@@ -276,4 +276,10 @@
   <data name="title-forgot-password" xml:space="preserve">
     <value>Forgot Password</value>
   </data>
+  <data name="message-unable-reset-password" xml:space="preserve">
+    <value>Unable to reset password</value>
+  </data>
+  <data name="button-reset-password" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
 </root>

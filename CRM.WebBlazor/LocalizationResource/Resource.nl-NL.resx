@@ -276,4 +276,10 @@
   <data name="title-forgot-password" xml:space="preserve">
     <value>Wachtwoord vergeten</value>
   </data>
+  <data name="message-unable-reset-password" xml:space="preserve">
+    <value>Wachtwoord resetten mislukt</value>
+  </data>
+  <data name="button-reset-password" xml:space="preserve">
+    <value>Wachtwoord resetten</value>
+  </data>
 </root>

@@ -58,9 +58,9 @@ namespace CRM.WebBlazor.Service
             return await HandleErrorResponse(response);
         }
 
-        public async Task<ResponseModel<bool>> ChangePasswordAsync(ApplicationUserForgotPasswordInputModel model)
+        public async Task<ResponseModel<bool>> ResetPasswordAsync(ApplicationUserForgotPasswordInputModel model)
         {
-            var response = await http.PostAsJsonAsync("Identity/Authentication/change-password", model);
+            var response = await http.PostAsJsonAsync("Identity/Authentication/reset-password", model);
 
             if (response.IsSuccessStatusCode)
                 return new ResponseModel<bool>{ IsSuccess = true };
@@ -101,6 +101,7 @@ namespace CRM.WebBlazor.Service
                 "Failed to save verification code" => "message-failed-save-verification-code",
                 "Email confirmation failed" => "message-email-confirmation-failed",
                 "Invalid confirmation code" => "message-invalid-confirmation-code",
+                "Unable to reset password" => "message-unable-reset-password",
                 "Password change failed" => "message-password-change-failed",
                 _ => "message-unknown-error"
             };

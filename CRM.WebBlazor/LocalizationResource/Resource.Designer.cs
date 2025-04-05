@@ -115,6 +115,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string button_reset_password {
+            get {
+                return ResourceManager.GetString("button-reset-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verify.
         /// </summary>
         public static string button_verify {
@@ -453,6 +462,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_two_factor_required {
             get {
                 return ResourceManager.GetString("message-two-factor-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to reset password.
+        /// </summary>
+        public static string message_unable_reset_password {
+            get {
+                return ResourceManager.GetString("message-unable-reset-password", resourceCulture);
             }
         }
         

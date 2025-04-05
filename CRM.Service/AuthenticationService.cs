@@ -15,14 +15,6 @@ namespace CRM.Service
         IApplicationEmailSender applicationEmailSender
         ) : IAuthenticationService
     {
-        public Task<bool> ChangePasswordAsync(ApplicationUserRegisterInputModel model)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<bool> ForgotPasswordAsync(ApplicationUserRegisterInputModel model)
-        {
-            throw new NotImplementedException();
-        }
         public async Task<ResponseModel<bool>> LoginAsync(ApplicationUserLoginInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
@@ -52,10 +44,7 @@ namespace CRM.Service
                 Data = false
             };
         }
-        public Task<bool> RefreshTokenAsync(ApplicationUserRegisterInputModel model)
-        {
-            throw new NotImplementedException();
-        }
+        
         public async Task<ResponseModel<bool>> RegisterAsync(ApplicationUserRegisterInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
@@ -216,7 +205,7 @@ namespace CRM.Service
             };
         }
 
-        public async Task<ResponseModel<bool>> ChangePasswordAsync(ApplicationUserForgotPasswordInputModel model)
+        public async Task<ResponseModel<bool>> ResetPasswordAsync(ApplicationUserForgotPasswordInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Code);
@@ -240,7 +229,7 @@ namespace CRM.Service
                 return new ResponseModel<bool>
                 {
                     IsSuccess = result.Succeeded,
-                    Message = result.Succeeded ? "Password changed successfully" : "Password change failed"
+                    Message = result.Succeeded ? "Password reset successful" : "Unable to reset password"
                 };
             }
             else
@@ -253,7 +242,12 @@ namespace CRM.Service
             }
         }
 
-        public Task<bool> ResetPasswordAsync(ApplicationUserRegisterInputModel model)
+        public Task<bool> ChangePasswordAsync(ApplicationUserRegisterInputModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RefreshTokenAsync(ApplicationUserRegisterInputModel model)
         {
             throw new NotImplementedException();
         }
