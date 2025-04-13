@@ -180,7 +180,10 @@
   <data name="message-lastname-required" xml:space="preserve">
     <value>Achternaam is verplicht!</value>
   </data>
-  <data name="input-dateofbirth" xml:space="preserve">
+  <data name="input-date-of-birth" xml:space="preserve">
+    <value>Geboortedatum</value>
+  </data>
+  <data name="label-date-of-birth" xml:space="preserve">
     <value>Geboortedatum</value>
   </data>
   <data name="input-confirm-password" xml:space="preserve">
@@ -281,5 +284,41 @@
   </data>
   <data name="button-reset-password" xml:space="preserve">
     <value>Wachtwoord resetten</value>
+  </data>
+  <data name="button-update" xml:space="preserve">
+    <value>Bijwerken</value>
+  </data>
+  <data name="title-user-profile" xml:space="preserve">
+    <value>Gebruikersprofiel</value>
+  </data>
+  <data name="tab-details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="tab-edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="tab-change-password" xml:space="preserve">
+    <value>Wachtwoord wijzigen</value>
+  </data>
+  <data name="input-current-password" xml:space="preserve">
+    <value>Huidig wachtwoord</value>
+  </data>
+  <data name="label-full-name" xml:space="preserve">
+    <value>Volledige naam</value>
+  </data>
+  <data name="label-date-of-register" xml:space="preserve">
+    <value>Registratiedatum</value>
+  </data>
+  <data name="label-status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="status-active" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="status-inactive" xml:space="preserve">
+    <value>Inactief</value>
+  </data>
+  <data name="label-description" xml:space="preserve">
+    <value>Beschrijving</value>
   </data>
 </root>

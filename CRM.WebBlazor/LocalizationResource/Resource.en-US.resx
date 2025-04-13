@@ -180,8 +180,11 @@
   <data name="message-lastname-required" xml:space="preserve">
     <value>Last name is required!</value>
   </data>
-  <data name="input-dateofbirth" xml:space="preserve">
-    <value>Date of Birth</value>
+  <data name="input-date-of-birth" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+  <data name="label-date-of-birth" xml:space="preserve">
+    <value>Date of birth</value>
   </data>
   <data name="input-confirm-password" xml:space="preserve">
     <value>Confirm Password</value>
@@ -281,5 +284,41 @@
   </data>
   <data name="button-reset-password" xml:space="preserve">
     <value>Reset Password</value>
+  </data>
+  <data name="button-update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="title-user-profile" xml:space="preserve">
+    <value>User Profile</value>
+  </data>
+  <data name="tab-details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="tab-edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="tab-change-password" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="input-current-password" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="label-full-name" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="label-date-of-register" xml:space="preserve">
+    <value>Date of register</value>
+  </data>
+  <data name="label-status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="status-active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="status-inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="label-description" xml:space="preserve">
+    <value>Description</value>
   </data>
 </root>

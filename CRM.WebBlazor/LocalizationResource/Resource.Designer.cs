@@ -124,6 +124,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string button_update {
+            get {
+                return ResourceManager.GetString("button-update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verify.
         /// </summary>
         public static string button_verify {
@@ -196,11 +205,20 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date of Birth.
+        ///   Looks up a localized string similar to Current Password.
         /// </summary>
-        public static string input_dateofbirth {
+        public static string input_current_password {
             get {
-                return ResourceManager.GetString("input-dateofbirth", resourceCulture);
+                return ResourceManager.GetString("input-current-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of birth.
+        /// </summary>
+        public static string input_date_of_birth {
+            get {
+                return ResourceManager.GetString("input-date-of-birth", resourceCulture);
             }
         }
         
@@ -259,11 +277,56 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date of birth.
+        /// </summary>
+        public static string label_date_of_birth {
+            get {
+                return ResourceManager.GetString("label-date-of-birth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of register.
+        /// </summary>
+        public static string label_date_of_register {
+            get {
+                return ResourceManager.GetString("label-date-of-register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string label_description {
+            get {
+                return ResourceManager.GetString("label-description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Errors.
         /// </summary>
         public static string label_errors {
             get {
                 return ResourceManager.GetString("label-errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Name.
+        /// </summary>
+        public static string label_full_name {
+            get {
+                return ResourceManager.GetString("label-full-name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string label_status {
+            get {
+                return ResourceManager.GetString("label-status", resourceCulture);
             }
         }
         
@@ -511,6 +574,51 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string status_active {
+            get {
+                return ResourceManager.GetString("status-active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inactive.
+        /// </summary>
+        public static string status_inactive {
+            get {
+                return ResourceManager.GetString("status-inactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string tab_change_password {
+            get {
+                return ResourceManager.GetString("tab-change-password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string tab_details {
+            get {
+                return ResourceManager.GetString("tab-details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string tab_edit {
+            get {
+                return ResourceManager.GetString("tab-edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Email.
         /// </summary>
         public static string title_confirm_email {
@@ -543,6 +651,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string title_register {
             get {
                 return ResourceManager.GetString("title-register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Profile.
+        /// </summary>
+        public static string title_user_profile {
+            get {
+                return ResourceManager.GetString("title-user-profile", resourceCulture);
             }
         }
         
