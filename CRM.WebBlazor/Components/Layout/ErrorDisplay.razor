@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> localizer
 
-<MudPaper Class="pa-4 mud-height-full">
+<MudPaper Elevation="@Elevation" Class="pa-4 mud-height-full">
     <MudText Typo="Typo.subtitle2">@localizer["label-errors"] (@Errors.Length):</MudText>
     @foreach (var error in Errors)
     {
@@ -11,4 +11,7 @@
 @code {
     [Parameter, EditorRequired]
     public string[] Errors { get; set; } = Array.Empty<string>();
+    
+    [Parameter, EditorRequired]
+    public int Elevation { get; set; } = 1;
 }
