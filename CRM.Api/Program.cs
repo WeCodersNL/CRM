@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using TokenHandler = CRM.Utility.TokenHandler;
 
 namespace CRM.Api
 {
@@ -29,6 +33,28 @@ namespace CRM.Api
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CRM API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
@@ -41,6 +67,28 @@ namespace CRM.Api
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
             builder.Services.AddSingleton<IApplicationEmailSender, ApplicationEmailSender>();
+            builder.Services.Configure<TokenConfiguration>(builder.Configuration.GetSection("TokenConfiguration"));
+            builder.Services.AddSingleton<ITokenHandler, TokenHandler>();
+
+            builder.Services.AddAuthentication(optiones =>
+            {
+                optiones.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                optiones.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                optiones.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(o =>
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidAudience = builder.Configuration["TokenConfiguration:Audience"],
+                        ValidIssuer = builder.Configuration["TokenConfiguration:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenConfiguration:SecretKey"]!)),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                    }
+                );
 
             var app = builder.Build();
 
