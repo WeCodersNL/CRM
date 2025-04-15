@@ -1,21 +1,24 @@
 ﻿using CRM.Model.ApplicationModels;
 using CRM.Model.IdentityModels;
 using CRM.Model.InputModels;
-using CRM.Service.IService;
+using CRM.Model.ViewModels;
+using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Security.Claims;
 
-namespace CRM.Service
+namespace CRM.Service.Identity
 {
     public class AuthenticationService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IApplicationEmailSender applicationEmailSender
+        IApplicationEmailSender applicationEmailSender,
+        ITokenHandler tokenHandler
         ) : IAuthenticationService
     {
-        public async Task<ResponseModel<bool>> LoginAsync(ApplicationUserLoginInputModel model)
+        public async Task<ResponseModel<ApplicationUserProfileViewModel>> LoginAsync(ApplicationUserLoginInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Password);
@@ -24,11 +27,18 @@ namespace CRM.Service
 
             if (result.Succeeded)
             {
-                return new ResponseModel<bool>
+                var user = await userManager.FindByEmailAsync(model.Email);
+                var claims = new List<Claim>
+                {
+                    new(TokenParameters.UserId, user?.Id!),
+                    new(TokenParameters.Email, user?.Email!)
+                };
+                var token = tokenHandler.GenerateJwtToken(claims);
+                return new ResponseModel<ApplicationUserProfileViewModel>
                 {
                     IsSuccess = true,
                     Message = "Login successful",
-                    Data = true
+                    Data = new ApplicationUserProfileViewModel(user!) { Token = token }
                 };
             }
 
@@ -37,14 +47,14 @@ namespace CRM.Service
                                   result.RequiresTwoFactor ? "Two-factor authentication is required." :
                                   "Invalid login attempt.";
 
-            return new ResponseModel<bool>
+            return new ResponseModel<ApplicationUserProfileViewModel>
             {
                 IsSuccess = false,
                 Message = errorMessage,
-                Data = false
+                Data = null
             };
         }
-        
+
         public async Task<ResponseModel<bool>> RegisterAsync(ApplicationUserRegisterInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
@@ -125,7 +135,8 @@ namespace CRM.Service
             model.Code = user.VerificationCode.ToString();
             model.FullName = $"{user.FirstName} {user.LastName}";
             await SendEmailConfirmationCodeAsync(model);
-            return new ResponseModel<bool> {
+            return new ResponseModel<bool>
+            {
                 IsSuccess = true,
                 Message = "Verification code sent successfully"
             };

@@ -1,5 +1,5 @@
 ﻿using CRM.Model.InputModels;
-using CRM.Service.IService;
+using CRM.Service.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 
@@ -16,7 +16,7 @@ namespace CRM.Api.Areas.Identity
         public async Task<IActionResult> Login([FromBody] ApplicationUserLoginInputModel model)
         {
             var response = await authenticationService.LoginAsync(model);
-            return response.IsSuccess ? Ok() : BadRequest(response);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
         }
 
         [HttpPost("register")]
@@ -57,14 +57,6 @@ namespace CRM.Api.Areas.Identity
         {
             var response = await authenticationService.ResetPasswordAsync(model);
             return response.IsSuccess ? Ok() : StatusCode(500);
-        }
-
-        [HttpPost("change-password")]
-        [DisplayName("Change Password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ApplicationUserRegisterInputModel model)
-        {
-            var response = await authenticationService.ChangePasswordAsync(model);
-            return response ? Ok() : StatusCode(500);
         }
 
         [HttpPost("refresh-token")]

@@ -1,8 +1,6 @@
 
 using CRM.DataAccess;
 using CRM.Model.IdentityModels;
-using CRM.Service;
-using CRM.Service.IService;
 using CRM.Utility.IUtility;
 using CRM.Utility;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TokenHandler = CRM.Utility.TokenHandler;
+using CRM.Service.Identity;
 
 namespace CRM.Api
 {
