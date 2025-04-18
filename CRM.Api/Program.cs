@@ -64,6 +64,7 @@ namespace CRM.Api
                 .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
             builder.Services.AddSingleton<IApplicationEmailSender, ApplicationEmailSender>();
             builder.Services.Configure<TokenConfiguration>(builder.Configuration.GetSection("TokenConfiguration"));

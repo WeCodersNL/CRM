@@ -1,5 +1,275 @@
-﻿<h3>UserProfile</h3>
+﻿@page "/identity/user-profile"
+
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager navManager
+@inject IFileService fileService
+@inject IUserService userServiceService
+@inject ISnackbar snackbar
+
+<MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
+    <MudText Typo="Typo.h3">@localizer["title-user-profile"]</MudText>
+    <MudPaper Class="pa-4 my-2 text-center" Outlined="false" Square="false" Elevation="0">
+        <MudBadge Color="@(viewModel.Activity == true ? Color.Success : Color.Dark)" Overlap="true" Bordered="true">
+            <MudAvatar Style="height:70px; width:70px;" Color="Color.Primary" Variant="Variant.Outlined">
+                <MudImage Src="@imageSrc" Alt="@viewModel.FullName" Fluid="true" Class="rounded-lg" />
+            </MudAvatar>
+        </MudBadge>
+        <MudFileUpload T="IBrowserFile" FilesChanged="UploadImage">
+            <ActivatorContent>
+                <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.PhotoCamera"></MudIconButton>
+            </ActivatorContent>
+        </MudFileUpload>
+        <MudText Typo="Typo.subtitle1">@viewModel.FullName</MudText>
+        <MudText Typo="Typo.subtitle2">@viewModel.Email</MudText>
+    </MudPaper>
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+        <MudTabPanel Text="@localizer["tab-details"]" Icon="@Icons.Material.Filled.RemoveRedEye">@* Detail panel *@
+            <MudGrid>
+                <MudItem xs="12" lg="6">
+                    <MudPaper Elevation="0" Class="pa-4">
+                        <MudStack Spacing="2">
+                            <MudText Typo="Typo.subtitle2"><b>@localizer["label-full-name"]:</b> @viewModel.FullName</MudText>
+                            <MudText Typo="Typo.subtitle2"><b>@localizer["label-date-of-birth"]:</b> @viewModel.DateOfBirth?.ToString("d")</MudText>
+                            <MudText Typo="Typo.subtitle2"><b>@localizer["label-date-of-register"]:</b> @viewModel.RegistrationDate?.ToString("d")</MudText>
+                            <MudText Typo="Typo.subtitle2">
+                                <b>@localizer["label-status"]:</b>
+                                @if (viewModel.Activity == true)
+                                {
+                                    <MudChip T="string" Variant="Variant.Outlined" Color="Color.Success">@localizer["status-active"]</MudChip>
+                                }
+                                else
+                                {
+                                    <MudChip T="string" Variant="Variant.Outlined" Color="Color.Error">@localizer["status-inactive"]</MudChip>
+                                }
+                            </MudText>
+                            <MudText Typo="Typo.subtitle2"><b>@localizer["label-description"]:</b></MudText>
+                            <MudText Typo="Typo.body2" Align="Align.Justify">
+                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                                laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+                                voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
+                                non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
+                                exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
+                                qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                            </MudText>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+                <MudItem xs="12" lg="6">
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+        <MudTabPanel Text="@localizer["tab-edit"]" Icon="@Icons.Material.Filled.Edit">@* Edit panel *@
+            <MudGrid>
+                <MudItem xs="12" lg="7">
+                    <MudPaper Elevation="0" Class="pa-4">
+                        <MudForm @ref="formUpdate" @bind-IsValid="@success" @bind-Errors="@updateErrors" Model="@updateModel" Disabled="@loading">
+                            <MudTextField T="string" Label="@localizer["input-firstname"]"
+                            @bind-Value="updateModel.FirstName"
+                            InputType="InputType.Text"
+                            Required="true"
+                            RequiredError="@localizer["message-firstname-required"]"
+                            Class="mt-4" />
+
+                            <MudTextField T="string" Label="@localizer["input-lastname"]"
+                            @bind-Value="updateModel.LastName"
+                            InputType="InputType.Text"
+                            Required="true"
+                            RequiredError="@localizer["message-lastname-required"]"
+                            Class="mt-4" />
+
+                            <MudSelect FieldId="genderSelect" T="string" Label="@localizer["input-gender"]"
+                            @bind-Value="selectedGender" Class="mt-4">
+                                @foreach (var gender in GetLocalizedGenderArrayFromEnum())
+                                {
+                                    <MudSelectItem T="string" Value="@gender.Key.ToString()">@gender.Value</MudSelectItem>
+                                }
+                            </MudSelect>
+                            <MudDatePicker T="DateTime" Label="@localizer["input-date-of-birth"]"
+                            @bind-Date="updateModel.DateOfBirth"
+                            Class="mt-4" />
+
+                            <div class="d-flex align-center justify-space-between mt-4">
+                                <MudSpacer />
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" Class="mx-2"
+                                OnClick="@(()=>ResetForm(formUpdate))">@localizer["button-reset"]</MudButton>
+
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto"
+                                OnClick="@(async () => await SubmitFormUpdate())">@localizer["button-update"]</MudButton>
+                            </div>
+                        </MudForm>
+                    </MudPaper>
+                </MudItem>
+                <MudItem xs="12" lg="5">
+                    <ErrorDisplay Errors="updateErrors" Elevation="0" />
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+        <MudTabPanel Text="@localizer["tab-change-password"]" Icon="@Icons.Material.Filled.Key">@* Change password panel *@
+            <MudGrid>
+                <MudItem xs="12" lg="7">
+                    <MudPaper Elevation="0" Class="pa-4">
+                        <MudForm @ref="formChangePassword" @bind-IsValid="@success" @bind-Errors="@passwordErrors" Model="@changePasswordModel" Disabled="@loading">
+                            <MudTextField T="string" Label="@localizer["input-current-password"]"
+                            @bind-Value="changePasswordModel.CurrentPassword"
+                            InputType="InputType.Password"
+                            Validation="@(new PasswordAttribute() {ErrorMessage = @localizer["message-password-validation"]})"
+                            RequiredError="@localizer["message-password-required"]"
+                            Class="mt-4" />
+
+                            <MudTextField T="string" Label="@localizer["input-password"]"
+                            @bind-Value="changePasswordModel.NewPassword"
+                            InputType="InputType.Password"
+                            Validation="@(new PasswordAttribute() {ErrorMessage = @localizer["message-password-validation"]})"
+                            RequiredError="@localizer["message-password-required"]"
+                            Class="mt-4" />
+
+                            <MudTextField T="string" Label="@localizer["input-confirm-password"]"
+                            InputType="InputType.Password"
+                            Validation="@(new Func<string, string?>(PasswordMatch))"
+                            RequiredError="@localizer["message-confirm-password-required"]"
+                            Class="mt-4" />
+
+                            <div class="d-flex align-center justify-space-between mt-4">
+                                <MudSpacer />
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" DropShadow="false" Class="mx-2"
+                                OnClick="@(()=>ResetForm(formChangePassword))">@localizer["button-reset"]</MudButton>
+
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)"
+                                OnClick="@SubmitFormChangePassword">@localizer["button-change-password"]</MudButton>
+                            </div>
+                        </MudForm>
+                    </MudPaper>
+                </MudItem>
+                <MudItem xs="12" lg="5">
+                    <ErrorDisplay Errors="passwordErrors" Elevation="0" />
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+    </MudTabs>
+    <LoadingSpinner Loading="loading" />
+</MudPaper>
 
 @code {
+    bool success;
+    string[] updateErrors = Array.Empty<string>();
+    string[] passwordErrors = Array.Empty<string>();
+    MudForm formUpdate = new();
+    MudForm formChangePassword = new();
+    ApplicationUserProfileViewModel viewModel = new();
+    ApplicationUserProfileInputModel updateModel = new() { FirstName = "", LastName = "" };
+    ApplicationUserChangePasswordInputModel changePasswordModel = new() { CurrentPassword = "", NewPassword = "" };
+    bool loading = false;
+    string selectedGender = string.Empty;
+    private const string ImageContainer = "user-profile-images";
+    private const string DefaultAvatar = "avatar.png";
+    private static string GetImagePath(string imageName) => $"../images/{ImageContainer}/{imageName}";
+    private string imageSrc = GetImagePath(DefaultAvatar);
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            loading = true;
+            viewModel = await userServiceService.GetUserProfileAsync();
+            loading = false;
+
+            if (string.IsNullOrEmpty(viewModel.Token))
+                navManager.NavigateTo("/Identity/login");
+
+            imageSrc = string.IsNullOrEmpty(viewModel.ImageName)
+                ? GetImagePath(DefaultAvatar)
+                : GetImagePath(viewModel.ImageName);
+
+            updateModel.FirstName = viewModel.FirstName ?? string.Empty;
+            updateModel.LastName = viewModel.LastName ?? string.Empty;
+            updateModel.DateOfBirth = viewModel.DateOfBirth;
+
+            selectedGender = viewModel.Gender?.ToString() ?? string.Empty;
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task UploadImage(IBrowserFile file)
+    {
+        loading = true;
+        updateModel.ImageName = await fileService.UploadImageAsync(file, ImageContainer);
+        var response = await userServiceService.UpdateUserProfileAsync(updateModel);
+        loading = false;
+        if (response.IsSuccess)
+        {
+            imageSrc = GetImagePath(updateModel.ImageName);
+            if (!string.IsNullOrEmpty(viewModel.ImageName) && viewModel.ImageName != DefaultAvatar)
+                await fileService.DeleteImageAsync(viewModel.ImageName, ImageContainer);
+
+            viewModel.ImageName = updateModel.ImageName;
+        }
+        else
+            snackbar.Add(response.Message!, Severity.Error);
+    }
+
+    private async Task SubmitFormUpdate()
+    {
+        await formUpdate.Validate();
+        if (!formUpdate.IsValid) return;
+
+        UpdateGender(selectedGender);
+
+        loading = true;
+        var response = await userServiceService.UpdateUserProfileAsync(updateModel);
+        loading = false;
+        if (response.IsSuccess)
+            snackbar.Add(localizer["message-profile-updated-successfully"], Severity.Success);
+        else
+            updateErrors = new string[] { response.Message ?? string.Empty };
+    }
+
+    private async Task SubmitFormChangePassword()
+    {
+        await formChangePassword.Validate();
+        if (!formChangePassword.IsValid) return;
+
+        loading = true;
+        var response = await userServiceService.ChangePasswordAsync(changePasswordModel);
+        loading = false;
+        if (response.IsSuccess)
+            snackbar.Add(localizer["message-password-changed-successfully"], Severity.Success);
+        else
+            passwordErrors = new string[] { response.Message ?? string.Empty };
+    }
+
+    private KeyValuePair<Gender, string>[] GetLocalizedGenderArrayFromEnum()
+    {
+        return Enum.GetValues(typeof(Gender))
+                   .Cast<Gender>()
+                   .Select(gender => new KeyValuePair<Gender, string>(gender, localizer[$"gender-{gender}"].Value))
+                   .ToArray();
+    }
+
+    private void UpdateGender(string value)
+    {
+        if (Enum.TryParse<Gender>(value, out var parsedGender))
+            updateModel.Gender = parsedGender;
+        else
+            updateModel.Gender = null;
+    }
+
+    private string? PasswordMatch(string confirmPassword)
+    {
+        if (changePasswordModel.NewPassword != confirmPassword)
+        {
+            return localizer["message-confirm-password-match"];
+        }
+        return null;
+    }
+
+    private void ResetForm(MudForm form)
+    {
+        form.ResetAsync();
+        form.ResetValidation();
+        updateErrors = Array.Empty<string>();
+        passwordErrors = Array.Empty<string>();
+    }
 }
+
