@@ -321,4 +321,10 @@
   <data name="label-description" xml:space="preserve">
     <value>Beschrijving</value>
   </data>
+  <data name="message-profile-updated-successfully" xml:space="preserve">
+    <value>Profiel succesvol bijgewerkt!</value>
+  </data>
+  <data name="message-password-changed-successfully" xml:space="preserve">
+    <value>Wachtwoord succesvol gewijzigd!</value>
+  </data>
 </root>

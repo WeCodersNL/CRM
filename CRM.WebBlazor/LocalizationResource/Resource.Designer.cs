@@ -493,6 +493,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password changed successfully!.
+        /// </summary>
+        public static string message_password_changed_successfully {
+            get {
+                return ResourceManager.GetString("message-password-changed-successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required!.
         /// </summary>
         public static string message_password_required {
@@ -516,6 +525,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_password_weak {
             get {
                 return ResourceManager.GetString("message-password-weak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated successfully!.
+        /// </summary>
+        public static string message_profile_updated_successfully {
+            get {
+                return ResourceManager.GetString("message-profile-updated-successfully", resourceCulture);
             }
         }
         
