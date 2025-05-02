@@ -1,17 +1,17 @@
 
 using CRM.DataAccess;
 using CRM.Model.IdentityModels;
-using CRM.Utility.IUtility;
+using CRM.Service.Identity;
 using CRM.Utility;
+using CRM.Utility.IUtility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TokenHandler = CRM.Utility.TokenHandler;
-using CRM.Service.Identity;
 
 namespace CRM.Api
 {

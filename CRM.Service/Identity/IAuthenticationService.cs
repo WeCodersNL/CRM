@@ -1,6 +1,5 @@
 ﻿using CRM.Model.ApplicationModels;
 using CRM.Model.InputModels;
-using CRM.Model.ViewModels;
 
 namespace CRM.Service.Identity
 {

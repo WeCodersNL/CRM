@@ -35,7 +35,7 @@ namespace CRM.Api.Areas.Identity
             var response = await authenticationService.ConfirmEmailAsync(model);
             return response.IsSuccess ? Ok() : BadRequest(response);
         }
-        
+
         [HttpPost("confirm-email-verify-code")]
         [DisplayName("Confirm Email Verify Code")]
         public async Task<IActionResult> ConfirmEmailVerifyCode([FromBody] ApplicationUserConfirmEmailInputModel model)
@@ -51,7 +51,7 @@ namespace CRM.Api.Areas.Identity
             var response = await authenticationService.ForgotPasswordAsync(model);
             return response.IsSuccess ? Ok() : BadRequest(response);
         }
-        
+
         [HttpPost("reset-password")]
         [DisplayName("Reset Password")]
         public async Task<IActionResult> ResetPassword([FromBody] ApplicationUserForgotPasswordInputModel model)

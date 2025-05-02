@@ -1,7 +1,6 @@
 ﻿using CRM.Model.ApplicationModels;
 using CRM.Model.IdentityModels;
 using CRM.Model.InputModels;
-using CRM.Model.ViewModels;
 using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Identity;
@@ -267,7 +266,7 @@ namespace CRM.Service.Identity
 
             var principal = tokenHandler.GetPrincipalFromExpiredToken(model.AccessToken);
             var userEmail = principal?.Claims.FirstOrDefault(c => c.Type == TokenParameters.Email)?.Value;
-            if(string.IsNullOrEmpty(userEmail))
+            if (string.IsNullOrEmpty(userEmail))
                 return TokenRequestFailure("Invalid token");
 
             var user = await userManager.FindByEmailAsync(userEmail);

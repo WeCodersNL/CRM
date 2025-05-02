@@ -25,7 +25,7 @@ namespace CRM.WebBlazor.Service
                 Message = localizer["message-unknown-error"]
             };
         }
-        
+
         public ResponseModel<T> HandleErrorResponse<T>(ResponseModel<T>? response)
         {
             return new ResponseModel<T>

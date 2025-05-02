@@ -6,7 +6,7 @@ namespace CRM.WebBlazor.Service.Identity
 {
     public interface IUserService
     {
-        Task<ApplicationUserProfileViewModel> GetUserProfileAsync();
+        Task<ResponseModel<ApplicationUserProfileViewModel>> GetUserProfileAsync();
         Task<ResponseModel<bool>> UpdateUserProfileAsync(ApplicationUserProfileInputModel model);
         Task<ResponseModel<bool>> ChangePasswordAsync(ApplicationUserChangePasswordInputModel model);
     }

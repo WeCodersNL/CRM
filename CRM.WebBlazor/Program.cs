@@ -15,7 +15,15 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         var apiBaseAddress = builder.Configuration["ApiBaseAddress"];
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress!) });
+        builder.Services.AddHttpClient("DefaultClient", client =>
+        {
+            client.BaseAddress = new Uri(apiBaseAddress!);
+        });
+
+        builder.Services.AddHttpClient("SecureClient", client =>
+        {
+            client.BaseAddress = new Uri(apiBaseAddress!);
+        });
 
         // Add services to the container.
         builder.Services.AddLocalization();
@@ -30,6 +38,9 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
         builder.Services.AddMudServices();
+        builder.Services.AddScoped<TokenStore>();
+        builder.Services.AddScoped<RefreshTokenHandler>();
+        builder.Services.AddScoped<AuthenticatedHttpClientService>();
         builder.Services.AddScoped<IFileService, FileService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddScoped<IErrorHandlingService, ErrorHandlingService>();
