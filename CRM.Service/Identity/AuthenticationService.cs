@@ -5,6 +5,7 @@ using CRM.Model.ViewModels;
 using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Security.Claims;
@@ -18,7 +19,7 @@ namespace CRM.Service.Identity
         ITokenHandler tokenHandler
         ) : IAuthenticationService
     {
-        public async Task<ResponseModel<ApplicationUserProfileViewModel>> LoginAsync(ApplicationUserLoginInputModel model)
+        public async Task<ResponseModel<AuthenticationTokens>> LoginAsync(ApplicationUserLoginInputModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Email);
             ArgumentNullException.ThrowIfNull(model.Password);
@@ -34,11 +35,18 @@ namespace CRM.Service.Identity
                     new(TokenParameters.Email, user?.Email!)
                 };
                 var token = tokenHandler.GenerateJwtToken(claims);
-                return new ResponseModel<ApplicationUserProfileViewModel>
+                var refreshToken = tokenHandler.GenerateRefreshToken();
+
+                user!.RefreshTokenAttemptCount = 0;
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(tokenHandler.GetRefreshTokenExpiryDays());
+                await userManager.UpdateAsync(user);
+
+                return new ResponseModel<AuthenticationTokens>
                 {
                     IsSuccess = true,
                     Message = "Login successful",
-                    Data = new ApplicationUserProfileViewModel(user!) { Token = token }
+                    Data = new AuthenticationTokens { AccessToken = token, RefreshToken = refreshToken, IsRefreshTokenValid = true }
                 };
             }
 
@@ -47,11 +55,10 @@ namespace CRM.Service.Identity
                                   result.RequiresTwoFactor ? "Two-factor authentication is required." :
                                   "Invalid login attempt.";
 
-            return new ResponseModel<ApplicationUserProfileViewModel>
+            return new ResponseModel<AuthenticationTokens>
             {
                 IsSuccess = false,
-                Message = errorMessage,
-                Data = null
+                Message = errorMessage
             };
         }
 
@@ -253,14 +260,62 @@ namespace CRM.Service.Identity
             }
         }
 
-        public Task<bool> ChangePasswordAsync(ApplicationUserRegisterInputModel model)
+        public async Task<ResponseModel<AuthenticationTokens>> RefreshTokenAsync(AuthenticationTokens model)
         {
-            throw new NotImplementedException();
-        }
+            ArgumentNullException.ThrowIfNull(model.AccessToken);
+            ArgumentNullException.ThrowIfNull(model.RefreshToken);
 
-        public Task<bool> RefreshTokenAsync(ApplicationUserRegisterInputModel model)
-        {
-            throw new NotImplementedException();
+            var principal = tokenHandler.GetPrincipalFromExpiredToken(model.AccessToken);
+            var userEmail = principal?.Claims.FirstOrDefault(c => c.Type == TokenParameters.Email)?.Value;
+            if(string.IsNullOrEmpty(userEmail))
+                return TokenRequestFailure("Invalid token");
+
+            var user = await userManager.FindByEmailAsync(userEmail);
+            if (user is null)
+                return TokenRequestFailure("User not found");
+
+            var maxRefreshTokenAttempts = tokenHandler.GetMaxRefreshTokenAttempts();
+            if (user.RefreshTokenAttemptCount >= maxRefreshTokenAttempts)
+            {
+                user.RefreshTokenAttemptCount = 0;
+                await userManager.UpdateAsync(user);
+                return TokenRequestFailure("Refresh token limit exceeded");
+            }
+
+            if (string.IsNullOrEmpty(user.RefreshToken) || user.RefreshToken != model.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                user.RefreshTokenAttemptCount += 1;
+                await userManager.UpdateAsync(user);
+                return TokenRequestFailure("Invalid refresh token");
+            }
+
+            var claims = new List<Claim>
+            {
+                new(TokenParameters.UserId, user?.Id!),
+                new(TokenParameters.Email, user?.Email!)
+            };
+            var newToken = tokenHandler.GenerateJwtToken(claims);
+            var newRefreshToken = tokenHandler.GenerateRefreshToken();
+
+            user!.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(tokenHandler.GetRefreshTokenExpiryDays());
+            user.RefreshTokenAttemptCount = 0;
+
+            try
+            {
+                await userManager.UpdateAsync(user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return TokenRequestFailure("Failed to update user");
+            }
+
+            return new ResponseModel<AuthenticationTokens>
+            {
+                IsSuccess = true,
+                Message = "Token refreshed successfully",
+                Data = new AuthenticationTokens { AccessToken = newToken, RefreshToken = newRefreshToken, IsRefreshTokenValid = true }
+            };
         }
 
         private short GenerateVerificationCode()
@@ -280,6 +335,13 @@ namespace CRM.Service.Identity
             mail.AlternateViews.Add(alternateView);
             await applicationEmailSender.SendEmailAsync(mail);
         }
+
+        private ResponseModel<AuthenticationTokens> TokenRequestFailure(string message) => new()
+        {
+            IsSuccess = false,
+            Message = message,
+            Data = new AuthenticationTokens { IsRefreshTokenValid = false }
+        };
     }
 }
 

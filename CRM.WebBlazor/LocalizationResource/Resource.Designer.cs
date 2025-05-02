@@ -349,6 +349,60 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string menu_about {
+            get {
+                return ResourceManager.GetString("menu-about", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string menu_home {
+            get {
+                return ResourceManager.GetString("menu-home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string menu_login {
+            get {
+                return ResourceManager.GetString("menu-login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string menu_logout {
+            get {
+                return ResourceManager.GetString("menu-logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string menu_register {
+            get {
+                return ResourceManager.GetString("menu-register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Profile.
+        /// </summary>
+        public static string menu_user_profile {
+            get {
+                return ResourceManager.GetString("menu-user-profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code must contain exactly 4 digits..
         /// </summary>
         public static string message_code_four_digit {
@@ -475,6 +529,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong with your current session. Please log in again..
+        /// </summary>
+        public static string message_login_again_auth_error {
+            get {
+                return ResourceManager.GetString("message-login-again-auth-error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login is not allowed..
         /// </summary>
         public static string message_login_not_allowed {
@@ -565,6 +628,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account inactive. To reactivate your account, please contact the support team..
+        /// </summary>
+        public static string message_user_is_inactive {
+            get {
+                return ResourceManager.GetString("message-user-is-inactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User is locked out..
         /// </summary>
         public static string message_user_locked_out {
@@ -588,6 +660,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_verification_code_required {
             get {
                 return ResourceManager.GetString("message-verification-code-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Description.
+        /// </summary>
+        public static string profile_description {
+            get {
+                return ResourceManager.GetString("profile-description", resourceCulture);
             }
         }
         

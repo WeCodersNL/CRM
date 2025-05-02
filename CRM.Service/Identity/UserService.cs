@@ -1,6 +1,7 @@
 ﻿using CRM.Model.ApplicationModels;
 using CRM.Model.IdentityModels;
 using CRM.Model.InputModels;
+using CRM.Model.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,20 @@ using System.Threading.Tasks;
 
 namespace CRM.Service.Identity
 {
-    public class UserService(
-        UserManager<ApplicationUser> userManager) : IUserService
+    public class UserService(UserManager<ApplicationUser> userManager) : IUserService
     {
+        public async Task<ResponseModel<ApplicationUserProfileViewModel>> GetUserProfileAsync(ApplicationUserContext userContext)
+        {
+            ArgumentNullException.ThrowIfNull(userContext.UserId);
+
+            var user = await userManager.FindByIdAsync(userContext.UserId) ?? throw new Exception("Unable to get user");
+            return new ResponseModel<ApplicationUserProfileViewModel>
+            {
+                IsSuccess = true,
+                Message = "User profile retrieved successfully",
+                Data = new ApplicationUserProfileViewModel(user)
+            };
+        }
 
         public async Task<ResponseModel<bool>> UpdateUserProfileAsync(ApplicationUserProfileInputModel model, ApplicationUserContext userContext)
         {

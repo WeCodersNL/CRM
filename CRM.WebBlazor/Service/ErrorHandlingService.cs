@@ -25,6 +25,15 @@ namespace CRM.WebBlazor.Service
                 Message = localizer["message-unknown-error"]
             };
         }
+        
+        public ResponseModel<T> HandleErrorResponse<T>(ResponseModel<T>? response)
+        {
+            return new ResponseModel<T>
+            {
+                IsSuccess = false,
+                Message = GetLocalizedErrorMessage(response?.Message) ?? localizer["message-unknown-error"]
+            };
+        }
 
         private string GetLocalizedErrorMessage(string? message)
         {
@@ -42,6 +51,7 @@ namespace CRM.WebBlazor.Service
                 "Invalid confirmation code" => "message-invalid-confirmation-code",
                 "Unable to reset password" => "message-unable-reset-password",
                 "Password change failed" => "message-password-change-failed",
+                "User is inactive" => "message-user-is-inactive",
                 _ => "message-unknown-error"
             };
 

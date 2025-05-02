@@ -6,6 +6,6 @@ namespace CRM.WebBlazor.Service
     {
         Task<string> ReadFileAsync(string path);
         Task<string> UploadImageAsync(IBrowserFile file, string container);
-        Task DeleteImageAsync(string container, string fileName);
+        Task DeleteImageAsync(string fileName, string container);
     }
 }

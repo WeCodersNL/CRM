@@ -6,7 +6,7 @@ namespace CRM.WebBlazor.Service
     {
         private readonly string[] _allowedImageTypes = ["image/jpeg", "image/png", "image/gif"];
         private const long MaxAllowedFileSize = 5 * 1024 * 1024; // 5 MB
-        public async Task DeleteImageAsync(string container, string fileName)
+        public async Task DeleteImageAsync(string fileName, string container)
         {
             try
             {

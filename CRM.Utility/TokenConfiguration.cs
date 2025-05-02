@@ -7,5 +7,7 @@
         public required string Issuer { get; set; }
         public required string Audience { get; set; }
         public required string TokenExpiry { get; set; }
+        public required int RefreshTokenExpiryDays { get; set; }
+        public required int MaxRefreshTokenAttempts { get; set; }
     }
 }

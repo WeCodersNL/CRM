@@ -327,4 +327,31 @@
   <data name="message-password-changed-successfully" xml:space="preserve">
     <value>Wachtwoord succesvol gewijzigd!</value>
   </data>
+  <data name="message-user-is-inactive" xml:space="preserve">
+    <value>Uw account is inactief. Om het te reactiveren, kunt u contact opnemen met het ondersteuningsteam.</value>
+  </data>
+  <data name="profile-description" xml:space="preserve">
+    <value>Profielbeschrijving</value>
+  </data>
+  <data name="message-login-again-auth-error" xml:space="preserve">
+    <value>Er is iets misgegaan met uw huidige sessie. Log alstublieft opnieuw in.</value>
+  </data>
+  <data name="menu-home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="menu-user-profile" xml:space="preserve">
+    <value>Gebruikersprofiel</value>
+  </data>
+  <data name="menu-logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="menu-login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="menu-register" xml:space="preserve">
+    <value>Registreren</value>
+  </data>
+  <data name="menu-about" xml:space="preserve">
+    <value>Over</value>
+  </data>
 </root>
