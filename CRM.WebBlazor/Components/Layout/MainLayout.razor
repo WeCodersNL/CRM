@@ -44,7 +44,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && _isInitialized)
+        if (firstRender && !_isInitialized)
         {
             _isInitialized = true;
 
@@ -58,7 +58,7 @@
                 _currentIcon = _isDarkMode ? Icons.Material.Filled.Brightness4 : Icons.Material.Filled.Brightness7;
                 StateHasChanged();
             }
-
+            await jsRuntime.InvokeVoidAsync("eval", "document.body.style.visibility = 'visible';");
         }
     }
 
