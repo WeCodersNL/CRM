@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@inject HttpClient http
+@inject IHttpClientFactory httpClientFactory
 @inject IStringLocalizer<Resource> localizer
 
 <PageTitle>Home</PageTitle>
@@ -21,7 +21,8 @@
     {
         try
         {
-            apiResponse = await http.GetStringAsync("PublicArea/Public");
+            var httpClient = httpClientFactory.CreateClient("DefaultClient");
+            apiResponse = await httpClient.GetStringAsync("PublicArea/Public");
         }
         catch (Exception ex)
         {

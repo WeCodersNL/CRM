@@ -5,6 +5,7 @@
 @inject IFileService fileService
 @inject IUserService userServiceService
 @inject ISnackbar snackbar
+@inject TokenStore tokenStore
 
 <MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
     <MudText Typo="Typo.h3">@localizer["title-user-profile"]</MudText>
@@ -171,7 +172,15 @@
         if (firstRender)
         {
             loading = true;
-            viewModel = await userServiceService.GetUserProfileAsync();
+            StateHasChanged();
+            var responseModel = await userServiceService.GetUserProfileAsync();
+            if (responseModel.IsSuccess)
+                viewModel = responseModel.Data!;
+            else
+            {
+                snackbar.Add(responseModel.Message!, Severity.Error);
+                navManager.NavigateTo("/identity/login");
+            }
             loading = false;
 
             if (string.IsNullOrEmpty(viewModel.Token))

@@ -1,9 +1,45 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-    <MudNavLink Href="/identity/user-profile" Match="NavLinkMatch.Prefix">User Profile</MudNavLink>
-    <MudNavGroup Title="Identity" Expanded="true">
-        <MudNavLink Href="/identity/login" Match="NavLinkMatch.Prefix">Login</MudNavLink>
-        <MudNavLink Href="/identity/register" Match="NavLinkMatch.Prefix">Register</MudNavLink>
+﻿@implements IDisposable
+@inject IJSRuntime jsRuntime
+@inject TokenStore tokenStore
+@inject NavigationManager navManager
+@inject IStringLocalizer<Resource> localizer
+
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">@localizer["menu-home"]</MudNavLink>
+    <MudNavLink Href="/identity/user-profile" Match="NavLinkMatch.Prefix" Class="@(!isAuthenticated ? "d-none" : null)">@localizer["menu-user-profile"]</MudNavLink>
+    <MudNavGroup Title="Identity" Expanded="true" Class="@(isAuthenticated ? "d-none" : null)">
+        <MudNavLink Href="/identity/login" Match="NavLinkMatch.Prefix">@localizer["menu-login"]</MudNavLink>
+        <MudNavLink Href="/identity/register" Match="NavLinkMatch.Prefix">@localizer["menu-register"]</MudNavLink>
     </MudNavGroup>
-    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">@localizer["menu-about"]</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.Prefix" Class="@(!isAuthenticated ? "d-none" : null)" OnClick="async () => await Logout()">@localizer["menu-logout"]</MudNavLink>
 </MudNavMenu>
+
+@code {
+    bool isAuthenticated = false;
+
+    protected override void OnInitialized()
+    {
+        tokenStore.OnAuthenticationStateChanged += HandleAuthenticationStateChanged;
+    }
+
+    private void HandleAuthenticationStateChanged(bool isAuthenticated)
+    {
+        if (!isAuthenticated)
+            navManager.NavigateTo("/identity/login", forceLoad: true);
+
+        this.isAuthenticated = isAuthenticated;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        tokenStore.OnAuthenticationStateChanged -= HandleAuthenticationStateChanged;
+    }
+
+    private async Task Logout()
+    {
+        await tokenStore.ClearStorageAsync(jsRuntime);
+        navManager.NavigateTo("/identity/login", forceLoad: true);
+    }
+}
