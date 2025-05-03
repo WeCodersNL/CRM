@@ -28,6 +28,15 @@ namespace CRM.Service.Identity
             if (result.Succeeded)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
+                if (user!.IsActive == false)
+                {
+                    return new ResponseModel<AuthenticationTokens>
+                    {
+                        IsSuccess = false,
+                        Message = "User is inactive"
+                    };
+                }
+
                 var claims = new List<Claim>
                 {
                     new(TokenParameters.UserId, user?.Id!),
@@ -167,7 +176,7 @@ namespace CRM.Service.Identity
             if (isCodeValid)
             {
                 user.EmailConfirmed = true;
-                user.Activity = true;
+                user.IsActive = true;
                 var result = await userManager.UpdateAsync(user);
                 return new ResponseModel<bool>
                 {

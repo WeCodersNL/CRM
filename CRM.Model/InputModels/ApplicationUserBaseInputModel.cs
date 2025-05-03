@@ -13,5 +13,6 @@ namespace CRM.Model.InputModels
         public Gender? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? ImageName { get; set; }
+        public string? ProfileDescription { get; set; }
     }
 }

@@ -36,6 +36,8 @@ namespace CRM.Service.Identity
                 user.Gender = model.Gender.Value;
             if (!string.IsNullOrEmpty(model.ImageName))
                 user.ImageName = model.ImageName;
+            if (!string.IsNullOrEmpty(model.ProfileDescription))
+                user.ProfileDescription = model.ProfileDescription;
 
 
             var result = await userManager.UpdateAsync(user);
