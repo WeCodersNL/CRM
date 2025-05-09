@@ -285,6 +285,7 @@ namespace CRM.Service.Identity
             var maxRefreshTokenAttempts = tokenHandler.GetMaxRefreshTokenAttempts();
             if (user.RefreshTokenAttemptCount >= maxRefreshTokenAttempts)
             {
+                user.IsActive = false;
                 user.RefreshTokenAttemptCount = 0;
                 await userManager.UpdateAsync(user);
                 return TokenRequestFailure("Refresh token limit exceeded");

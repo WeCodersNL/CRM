@@ -5,7 +5,6 @@
 @inject IFileService fileService
 @inject IUserService userServiceService
 @inject ISnackbar snackbar
-@inject TokenStore tokenStore
 
 <MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
     <MudText Typo="Typo.h3">@localizer["title-user-profile"]</MudText>
@@ -180,9 +179,6 @@
                 navManager.NavigateTo("/identity/login");
             }
             loading = false;
-
-            if (string.IsNullOrEmpty(viewModel.Token))
-                navManager.NavigateTo("/Identity/login");
 
             imageSrc = string.IsNullOrEmpty(viewModel.ImageName)
                 ? GetImagePath(DefaultAvatar)
