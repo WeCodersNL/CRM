@@ -65,5 +65,14 @@ namespace CRM.Utility
         public int GetRefreshTokenExpiryDays() => _tokenConfig.RefreshTokenExpiryDays;
 
         public int GetMaxRefreshTokenAttempts() => _tokenConfig.MaxRefreshTokenAttempts;
+
+        public string GetEmailFromToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var email = jwtToken.Claims.First(claim => claim.Type == TokenParameters.Email).Value;
+
+            return email;
+        }
     }
 }

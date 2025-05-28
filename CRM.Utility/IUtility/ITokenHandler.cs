@@ -9,5 +9,6 @@ namespace CRM.Utility.IUtility
         string GenerateRefreshToken();
         int GetRefreshTokenExpiryDays();
         int GetMaxRefreshTokenAttempts();
+        string GetEmailFromToken(string token);
     }
 }

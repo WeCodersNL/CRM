@@ -1,4 +1,4 @@
-
+using CRM.Api.Middleware;
 using CRM.DataAccess;
 using CRM.Model.IdentityModels;
 using CRM.Service.Identity;
@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Diagnostics;
 using System.Text;
 using TokenHandler = CRM.Utility.TokenHandler;
@@ -21,6 +22,10 @@ namespace CRM.Api
         {
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found."); ;
+
+            builder.Host.UseSerilog((context, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration)
+                .Enrich.FromLogContext());
 
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -108,7 +113,7 @@ namespace CRM.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseLoggingMiddleware();
             app.UseAuthorization();
 
 
