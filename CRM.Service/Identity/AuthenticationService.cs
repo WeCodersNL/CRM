@@ -5,6 +5,7 @@ using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Security.Claims;
@@ -15,7 +16,8 @@ namespace CRM.Service.Identity
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IApplicationEmailSender applicationEmailSender,
-        ITokenHandler tokenHandler
+        ITokenHandler tokenHandler,
+        ILogger<AuthenticationService> logger
         ) : IAuthenticationService
     {
         public async Task<ResponseModel<AuthenticationTokens>> LoginAsync(ApplicationUserLoginInputModel model)
@@ -310,14 +312,8 @@ namespace CRM.Service.Identity
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(tokenHandler.GetRefreshTokenExpiryDays());
             user.RefreshTokenAttemptCount = 0;
 
-            try
-            {
-                await userManager.UpdateAsync(user);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return TokenRequestFailure("Failed to update user");
-            }
+            //throw new DbUpdateConcurrencyException("Simulated concurrency exception"); Todo: test this!
+            await userManager.UpdateAsync(user);
 
             return new ResponseModel<AuthenticationTokens>
             {
