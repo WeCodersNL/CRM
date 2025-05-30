@@ -6,6 +6,8 @@
 @inject IUserService userServiceService
 @inject ISnackbar snackbar
 
+<PageTitle>@localizer["title-user-profile"]</PageTitle>
+
 <MudPaper Style="position:relative;" Class="pa-4" Outlined="false" Square="false" Elevation="0">
     <MudText Typo="Typo.h3">@localizer["title-user-profile"]</MudText>
     <MudPaper Class="pa-4 my-2 text-center" Outlined="false" Square="false" Elevation="0">
@@ -190,6 +192,8 @@
             updateModel.ProfileDescription = viewModel.ProfileDescription ?? string.Empty;
 
             selectedGender = viewModel.Gender?.ToString() ?? string.Empty;
+
+            Log.Error($"User profile loaded successfully at {DateTime.Now}");
 
             StateHasChanged();
         }

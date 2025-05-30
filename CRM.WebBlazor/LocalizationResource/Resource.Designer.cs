@@ -484,11 +484,29 @@ namespace CRM.WebBlazor.LocalizationResource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to update user!.
+        /// </summary>
+        public static string message_failed_user_update {
+            get {
+                return ResourceManager.GetString("message-failed-user-update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name is required!.
         /// </summary>
         public static string message_firstname_required {
             get {
                 return ResourceManager.GetString("message-firstname-required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal server error occurred..
+        /// </summary>
+        public static string message_internal_server_error {
+            get {
+                return ResourceManager.GetString("message-internal-server-error", resourceCulture);
             }
         }
         
@@ -507,6 +525,24 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_invalid_login {
             get {
                 return ResourceManager.GetString("message-invalid-login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid refresh token!.
+        /// </summary>
+        public static string message_invalid_refresh_token {
+            get {
+                return ResourceManager.GetString("message-invalid-refresh-token", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid token!.
+        /// </summary>
+        public static string message_invalid_token {
+            get {
+                return ResourceManager.GetString("message-invalid-token", resourceCulture);
             }
         }
         
@@ -597,6 +633,15 @@ namespace CRM.WebBlazor.LocalizationResource {
         public static string message_profile_updated_successfully {
             get {
                 return ResourceManager.GetString("message-profile-updated-successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh token limit exceeded!.
+        /// </summary>
+        public static string message_refresh_token_limit_exceeded {
+            get {
+                return ResourceManager.GetString("message-refresh-token-limit-exceeded", resourceCulture);
             }
         }
         

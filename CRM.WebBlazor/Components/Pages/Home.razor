@@ -1,32 +1,10 @@
 ﻿@page "/"
 
-@inject IHttpClientFactory httpClientFactory
-@inject IStringLocalizer<Resource> localizer
-
-<PageTitle>Home</PageTitle>
-<MudContainer>
-    <h1>@localizer["WelcomeMessage"]</h1>
-
-    <p>@apiResponse</p>
-</MudContainer>
-@code {
-    private string? apiResponse;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await FetchData();
-    }
-
-    private async Task FetchData()
-    {
-        try
-        {
-            var httpClient = httpClientFactory.CreateClient("DefaultClient");
-            apiResponse = await httpClient.GetStringAsync("PublicArea/Public");
-        }
-        catch (Exception ex)
-        {
-            apiResponse = $"Error: {ex.Message}";
-        }
-    }
+@if (CultureInfo.CurrentUICulture.Name == "nl-NL")
+{
+    <Home_nl />
+}
+else
+{
+    <Home_en />
 }

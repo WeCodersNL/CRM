@@ -1,0 +1,31 @@
+﻿@inject NavigationManager navManager
+
+<PageTitle>Error</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-12 px-4 text-center">
+
+    <MudText Typo="Typo.h3" Color="Color.Error" GutterBottom="true" Class="font-bold">
+        Oops! Something went wrong.
+    </MudText>
+
+    <MudText Typo="Typo.body1" Class="mb-6">
+        We're sorry, but an unexpected error occurred while communicating with the server.
+        Please try again later.
+    </MudText>
+
+    <MudText Typo="Typo.body1" Class="mb-6">
+        If the problem persists, feel free to <MudLink Href="mailto:support@wecoders.nl">contact support</MudLink> or your site administrator for help.
+    </MudText>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateHome">
+        Go Back to Home
+    </MudButton>
+
+</MudContainer>
+
+@code {
+    private void NavigateHome()
+    {
+        navManager.NavigateTo("/");
+    }
+}

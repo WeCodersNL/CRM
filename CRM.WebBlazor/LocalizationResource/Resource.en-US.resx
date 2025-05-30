@@ -354,4 +354,19 @@
   <data name="menu-about" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="message-internal-server-error" xml:space="preserve">
+    <value>An internal server error occurred.</value>
+  </data>
+  <data name="message-invalid-token" xml:space="preserve">
+    <value>Invalid token!</value>
+  </data>
+  <data name="message-invalid-refresh-token" xml:space="preserve">
+    <value>Invalid refresh token!</value>
+  </data>
+  <data name="message-refresh-token-limit-exceeded" xml:space="preserve">
+    <value>Refresh token limit exceeded!</value>
+  </data>
+  <data name="message-failed-user-update" xml:space="preserve">
+    <value>Failed to update user!</value>
+  </data>
 </root>

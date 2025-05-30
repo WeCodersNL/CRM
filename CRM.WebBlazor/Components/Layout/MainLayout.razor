@@ -10,7 +10,7 @@
 <MudLayout>
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        My CRM Application
+        CRM Application
         <MudSpacer />
         <CultureDropDown />
         <MudIconButton Icon="@_currentIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="UpdateDarkMode" />
@@ -32,11 +32,13 @@
         PaletteLight = new PaletteLight()
         {
             Primary = Colors.DeepPurple.Default,
+            Secondary = Colors.Blue.Darken3,
             AppbarBackground = Colors.DeepPurple.Default,
         },
         PaletteDark = new PaletteDark()
         {
             Primary = Colors.DeepPurple.Lighten2,
+            Secondary = Colors.Blue.Lighten2,
             AppbarBackground = Colors.DeepPurple.Lighten2,
         }
     };

@@ -354,4 +354,19 @@
   <data name="menu-about" xml:space="preserve">
     <value>Over</value>
   </data>
+  <data name="message-internal-server-error" xml:space="preserve">
+    <value>Er is een interne serverfout opgetreden.</value>
+  </data>
+  <data name="message-invalid-token" xml:space="preserve">
+    <value>Ongeldige token!</value>
+  </data>
+  <data name="message-invalid-refresh-token" xml:space="preserve">
+    <value>Ongeldige vernieuwingstoken!</value>
+  </data>
+  <data name="message-refresh-token-limit-exceeded" xml:space="preserve">
+    <value>Limiet voor vernieuwingstoken overschreden!</value>
+  </data>
+  <data name="message-failed-user-update" xml:space="preserve">
+    <value>Gebruiker bijwerken mislukt!</value>
+  </data>
 </root>
