@@ -1,11 +1,12 @@
 ﻿using CRM.Model.ApplicationModels;
 using CRM.WebBlazor.LocalizationResource;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using System.Net;
 
 namespace CRM.WebBlazor.Service
 {
-    public class ErrorHandlingService(IStringLocalizer<Resource> localizer) : IErrorHandlingService
+    public class ErrorHandlingService(IStringLocalizer<Resource> localizer, NavigationManager navManager) : IErrorHandlingService
     {
         public async Task<ResponseModel<T>> HandleErrorResponse<T>(HttpResponseMessage response)
         {
@@ -35,6 +36,24 @@ namespace CRM.WebBlazor.Service
             };
         }
 
+        public ResponseModel<T> EnsureSuccessOrHandle<T>(ResponseModel<T>? response)
+        {
+            if (response is null || !response.IsSuccess)
+                return HandleErrorResponse(response);
+
+            return response;
+        }
+
+        public void HandleUnauthorized()
+        {
+            navManager.NavigateTo("/identity/login", forceLoad: true);
+        }
+
+        public void RedirectToErrorPage(string exceptionMessage)
+        {
+            navManager.NavigateTo("/error", forceLoad: true);
+        }
+
         private string GetLocalizedErrorMessage(string? message)
         {
             var resourceKey = message switch
@@ -52,6 +71,11 @@ namespace CRM.WebBlazor.Service
                 "Unable to reset password" => "message-unable-reset-password",
                 "Password change failed" => "message-password-change-failed",
                 "User is inactive" => "message-user-is-inactive",
+                "An internal server error occurred" => "message-internal-server-error",
+                "Invalid token" => "message-invalid-token",
+                "Invalid refresh token" => "message-invalid-refresh-token",
+                "Refresh token limit exceeded" => "message-refresh-token-limit-exceeded",
+                "Failed to update user" => "message-failed-user-update",
                 _ => "message-unknown-error"
             };
 

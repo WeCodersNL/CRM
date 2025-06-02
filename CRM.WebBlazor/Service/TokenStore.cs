@@ -56,5 +56,15 @@ namespace CRM.WebBlazor.Service
             RefreshToken = null;
             IsAuthenticated = false;
         }
+
+        public string? GetEmailFromAccessToken()
+        {
+            if (string.IsNullOrEmpty(AccessToken))
+                return null;
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(AccessToken);
+            return jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+        }
     }
 }

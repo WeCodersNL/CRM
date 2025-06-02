@@ -50,7 +50,10 @@
             _isInitialized = true;
 
             if (!tokenStore.IsInitialized)
+            {
                 await tokenStore.LoadFromStorageAsync(jsRuntime);
+                LogsEnricher.CurrentUserEmail = tokenStore.GetEmailFromAccessToken();
+            }
 
             var darkMode = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "dark-mode");
             if (!string.IsNullOrEmpty(darkMode))

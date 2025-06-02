@@ -24,7 +24,7 @@ namespace CRM.WebBlazor.Service.Identity
                     tokenStore.AccessToken = result.Data.AccessToken;
                     tokenStore.RefreshToken = result.Data.RefreshToken;
                     tokenStore.IsAuthenticated = true;
-
+                    LogsEnricher.CurrentUserEmail = model.Email;
                     await tokenStore.SaveToStorageAsync(jsRuntime);
                     return new ResponseModel<AuthenticationTokens> { IsSuccess = true };
                 }

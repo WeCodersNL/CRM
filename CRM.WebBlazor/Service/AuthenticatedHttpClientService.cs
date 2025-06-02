@@ -11,7 +11,6 @@ namespace CRM.WebBlazor.Service
         , IJSRuntime jsRuntime
         , TokenStore tokenStore
         , IErrorHandlingService errorHandlingService
-        , NavigationManager navManager
         )
     {
         private readonly HttpClient httpClient = httpClientFactory.CreateClient("SecureClient");
@@ -20,10 +19,12 @@ namespace CRM.WebBlazor.Service
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var response = await SendAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                errorHandlingService.RedirectToErrorPage("An internal server error occurred");
+
             var result = await response.Content.ReadFromJsonAsync<ResponseModel<T>>();
-            return result is null || !result.IsSuccess
-                ? errorHandlingService.HandleErrorResponse(result!)
-                : result;
+            return errorHandlingService.EnsureSuccessOrHandle(result);
         }
 
         public Task<ResponseModel<TResponse>> PostAsync<TRequest, TResponse>(string url, TRequest data)
@@ -37,9 +38,11 @@ namespace CRM.WebBlazor.Service
             var request = new HttpRequestMessage(HttpMethod.Delete, url);
             var response = await SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                errorHandlingService.RedirectToErrorPage("An internal server error occurred during deletion");
+
             var result = await response.Content.ReadFromJsonAsync<ResponseModel<bool>>();
-            return result ?? new ResponseModel<bool> { IsSuccess = true };
+            return errorHandlingService.EnsureSuccessOrHandle(result);
         }
 
         private async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
@@ -49,15 +52,17 @@ namespace CRM.WebBlazor.Service
 
             try
             {
+                //throw new HttpRequestException("Simulated network error for testing.");
                 if (tokenStore.IsAccessTokenExpired())
                 {
                     var refreshed = await refreshTokenHandler.TryRefreshTokenAsync();
                     if (!refreshed)
                     {
                         await tokenStore.ClearStorageAsync(jsRuntime);
-                        navManager.NavigateTo("/identity/login", forceLoad: true);
+                        errorHandlingService.HandleUnauthorized();
                     }
-                    await tokenStore.SaveToStorageAsync(jsRuntime);
+                    else
+                        await tokenStore.SaveToStorageAsync(jsRuntime);
                 }
 
                 await AddAuthorizationHeaderAsync(request);
@@ -78,7 +83,7 @@ namespace CRM.WebBlazor.Service
                     else
                     {
                         await tokenStore.ClearStorageAsync(jsRuntime);
-                        navManager.NavigateTo("/identity/login", forceLoad: true);
+                        errorHandlingService.HandleUnauthorized();
                     }
                 }
                 return response;
@@ -86,8 +91,8 @@ namespace CRM.WebBlazor.Service
             catch (HttpRequestException ex)
             {
                 await tokenStore.ClearStorageAsync(jsRuntime);
-                navManager.NavigateTo("/identity/login", forceLoad: true);
-                throw new Exception("Network error occurred while sending the request.", ex);
+                errorHandlingService.RedirectToErrorPage(ex.Message);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
 
@@ -99,9 +104,7 @@ namespace CRM.WebBlazor.Service
             };
             var response = await SendAsync(request);
             var result = await response.Content.ReadFromJsonAsync<ResponseModel<TResponse>>();
-            return result is null || !result.IsSuccess
-                ? errorHandlingService.HandleErrorResponse(result!)
-                : result;
+            return errorHandlingService.EnsureSuccessOrHandle(result);
         }
 
         private Task AddAuthorizationHeaderAsync(HttpRequestMessage request)
