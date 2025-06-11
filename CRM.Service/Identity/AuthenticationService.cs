@@ -16,8 +16,7 @@ namespace CRM.Service.Identity
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IApplicationEmailSender applicationEmailSender,
-        ITokenHandler tokenHandler,
-        ILogger<AuthenticationService> logger
+        ITokenHandler tokenHandler
         ) : IAuthenticationService
     {
         public async Task<ResponseModel<AuthenticationTokens>> LoginAsync(ApplicationUserLoginInputModel model)
