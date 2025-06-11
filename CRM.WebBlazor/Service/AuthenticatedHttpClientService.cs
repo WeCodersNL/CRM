@@ -1,5 +1,4 @@
 ﻿using CRM.Model.ApplicationModels;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Net;
 
@@ -52,7 +51,7 @@ namespace CRM.WebBlazor.Service
 
             try
             {
-                //throw new HttpRequestException("Simulated network error for testing.");
+                //throw new HttpRequestException("Simulated network error for testing."); Todo: test this!
                 if (tokenStore.IsAccessTokenExpired())
                 {
                     var refreshed = await refreshTokenHandler.TryRefreshTokenAsync();

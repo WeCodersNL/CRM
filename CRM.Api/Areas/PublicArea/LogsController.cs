@@ -1,5 +1,4 @@
 ﻿using CRM.Model.ApplicationModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog.Context;
 using Serilog.Events;

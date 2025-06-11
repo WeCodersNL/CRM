@@ -1,15 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using CRM.Model.ApplicationModels;
-using CRM.Model.Enums;
+﻿using CRM.Model.Enums;
 using CRM.Model.IdentityModels;
 using CRM.Model.InputModels;
-using CRM.Model.ViewModels;
 using CRM.Service.Identity;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using Xunit;
 
 namespace CRM.Service.UnitTests.Identity
 {
@@ -21,11 +15,10 @@ namespace CRM.Service.UnitTests.Identity
         public UserServiceTests()
         {
             var store = new Mock<IUserStore<ApplicationUser>>();
-            // Provide default values for non-nullable parameters
             var options = Mock.Of<Microsoft.Extensions.Options.IOptions<IdentityOptions>>();
             var passwordHasher = Mock.Of<IPasswordHasher<ApplicationUser>>();
-            var userValidators = new IUserValidator<ApplicationUser>[0];
-            var passwordValidators = new IPasswordValidator<ApplicationUser>[0];
+            var userValidators = Array.Empty<IUserValidator<ApplicationUser>>();
+            var passwordValidators = Array.Empty<IPasswordValidator<ApplicationUser>>();
             var keyNormalizer = Mock.Of<ILookupNormalizer>();
             var errors = Mock.Of<IdentityErrorDescriber>();
             var services = Mock.Of<IServiceProvider>();

@@ -1,9 +1,6 @@
-﻿using System.Net.Mail;
-using System.Security.Claims;
-using CRM.Model.ApplicationModels;
+﻿using CRM.Model.ApplicationModels;
 using CRM.Model.IdentityModels;
 using CRM.Model.InputModels;
-using CRM.Service.Identity;
 using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Authentication;
@@ -12,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using System.Net.Mail;
+using System.Security.Claims;
 
 namespace CRM.Service.UnitTests.Identity
 {
@@ -61,7 +60,7 @@ namespace CRM.Service.UnitTests.Identity
                 signInOptions.Object,
                 signInLogger.Object,
                 authenticationSchemeProvider.Object)
-                { CallBase = true };
+            { CallBase = true };
 
             _signInManager = _signInManagerMock.Object;
 
@@ -374,7 +373,7 @@ namespace CRM.Service.UnitTests.Identity
         [Fact]
         public async Task ConfirmEmailVerifyCodeAsync_ReturnsFailure_WhenCodeDoesNotMatch()
         {
-            var model = new ApplicationUserConfirmEmailInputModel { Email = "test@example.com", Code = "9999" , EmailTemplate = _emailTemplate };
+            var model = new ApplicationUserConfirmEmailInputModel { Email = "test@example.com", Code = "9999", EmailTemplate = _emailTemplate };
             var user = new ApplicationUser { Email = model.Email, VerificationCode = 1234 };
             _userManagerMock.Setup(u => u.FindByEmailAsync(model.Email)).ReturnsAsync(user);
 
@@ -387,7 +386,7 @@ namespace CRM.Service.UnitTests.Identity
         [Fact]
         public async Task ConfirmEmailVerifyCodeAsync_ReturnsFailure_WhenUpdateFails()
         {
-            var model = new ApplicationUserConfirmEmailInputModel { Email = "test@example.com", Code = "1234" , EmailTemplate = _emailTemplate };
+            var model = new ApplicationUserConfirmEmailInputModel { Email = "test@example.com", Code = "1234", EmailTemplate = _emailTemplate };
             var user = new ApplicationUser { Email = model.Email, VerificationCode = 1234 };
             _userManagerMock.Setup(u => u.FindByEmailAsync(model.Email)).ReturnsAsync(user);
             _userManagerMock.Setup(u => u.UpdateAsync(user)).ReturnsAsync(IdentityResult.Failed());
@@ -544,7 +543,7 @@ namespace CRM.Service.UnitTests.Identity
         public async Task RefreshTokenAsync_ReturnsNewTokens_WhenValid()
         {
             var model = new AuthenticationTokens { AccessToken = "access", RefreshToken = "refresh" };
-            var claims = new List<Claim> { new Claim(TokenParameters.Email, "test@example.com"), new Claim(TokenParameters.UserId, "1") };
+            var claims = new List<Claim> { new(TokenParameters.Email, "test@example.com"), new(TokenParameters.UserId, "1") };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             var user = new ApplicationUser
             {
@@ -606,7 +605,7 @@ namespace CRM.Service.UnitTests.Identity
         public async Task RefreshTokenAsync_ReturnsFailure_WhenUserNotFound()
         {
             var model = new AuthenticationTokens { AccessToken = "access", RefreshToken = "refresh" };
-            var claims = new List<Claim> { new Claim(TokenParameters.Email, "notfound@example.com") };
+            var claims = new List<Claim> { new(TokenParameters.Email, "notfound@example.com") };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             _tokenHandlerMock.Setup(t => t.GetPrincipalFromExpiredToken(model.AccessToken)).Returns(principal);
             _userManagerMock.Setup(u => u.FindByEmailAsync("notfound@example.com")).ReturnsAsync((ApplicationUser?)null);
@@ -623,7 +622,7 @@ namespace CRM.Service.UnitTests.Identity
         public async Task RefreshTokenAsync_ReturnsFailure_AndDisablesUser_WhenAttemptsExceeded()
         {
             var model = new AuthenticationTokens { AccessToken = "access", RefreshToken = "refresh" };
-            var claims = new List<Claim> { new Claim(TokenParameters.Email, "test@example.com") };
+            var claims = new List<Claim> { new(TokenParameters.Email, "test@example.com") };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             var user = new ApplicationUser
             {
@@ -650,7 +649,7 @@ namespace CRM.Service.UnitTests.Identity
         public async Task RefreshTokenAsync_ReturnsFailure_WhenRefreshTokenIsInvalidOrExpired()
         {
             var model = new AuthenticationTokens { AccessToken = "access", RefreshToken = "refresh" };
-            var claims = new List<Claim> { new Claim(TokenParameters.Email, "test@example.com") };
+            var claims = new List<Claim> { new(TokenParameters.Email, "test@example.com") };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             var user = new ApplicationUser
             {

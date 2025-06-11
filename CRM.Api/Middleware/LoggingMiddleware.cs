@@ -42,7 +42,7 @@ namespace CRM.Api.Middleware
 
                 using (LogContext.PushProperty("UserEmail", userEmail))
                 using (LogContext.PushProperty("UserIP", userIp))
-                using (LogContext.PushProperty("Elapsed", watcher.ElapsedMilliseconds)) 
+                using (LogContext.PushProperty("Elapsed", watcher.ElapsedMilliseconds))
                 {
                     string message = $"{nameof(LoggingMiddleware)} - " +
                         $"Status code {context.Response.StatusCode}, " +

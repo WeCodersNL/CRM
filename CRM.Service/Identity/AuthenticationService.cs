@@ -4,8 +4,6 @@ using CRM.Model.InputModels;
 using CRM.Utility;
 using CRM.Utility.IUtility;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Security.Claims;
@@ -324,7 +322,7 @@ namespace CRM.Service.Identity
 
         private short GenerateVerificationCode()
         {
-            Random random = new Random();
+            Random random = new();
             return (short)random.Next(1000, 9999);
         }
 
